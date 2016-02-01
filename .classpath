@@ -91,5 +91,6 @@
 	<classpathentry kind="lib" path="D:/eclipse/workspace/fit_spm/WebContent/WEB-INF/lib/c3p0-0.8.5.2.jar"/>
 	<classpathentry kind="lib" path="D:/eclipse/workspace/fit_spm/WebContent/WEB-INF/lib/aspectjrt.jar"/>
 	<classpathentry kind="lib" path="D:/eclipse/workspace/fit_spm/WebContent/WEB-INF/lib/aspectjweaver.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/workspace/fit_spm/WebContent/WEB-INF/lib/spring-data-redis-1.4.2.RELEASE.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
