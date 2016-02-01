@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="cardAdminDAO"> 
-      <!-- 新建商户主体资料test -->
+      <!-- 新建商户主体资料test04 -->
       <insert id="createSingleConsumeRecord"    parameterType = "com.bw.fit.spm.model.Common" >
       	insert into company (fdid,company_name,address,state,adminor,admin_phone,comp_level,parent_company_id,create_time,version_time,creator,company_type_cd,area_code,isDeleted)
 		values (#{fdid},#{company_name},#{company_address},'2',#{company_admin},#{company_admin_phone},
