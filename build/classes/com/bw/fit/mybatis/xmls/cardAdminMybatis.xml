@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="cardAdminDAO"> 
+      <!-- 新建商户主体资料 -->
+      <insert id="createSingleConsumeRecord"    parameterType = "com.bw.fit.spm.model.Common" >
+      	insert into company (fdid,company_name,address,state,adminor,admin_phone,comp_level,parent_company_id,create_time,version_time,creator,company_type_cd,area_code,isDeleted)
+		values (#{fdid},#{company_name},#{company_address},'2',#{company_admin},#{company_admin_phone},
+		#{company_level},#{parent_company_id},to_date(#{create_time},'yyyy-mm-dd hh24:mi:ss'),to_date(#{version_time},'yyyy-mm-dd hh24:mi:ss'),#{creator},#{company_type_code},#{area_code},'0')
+      </insert>
+      <select id="getPersonInfoByCard"    parameterType = "com.bw.fit.spm.model.Common"  resultType="com.bw.fit.spm.model.Common" > 
+   SELECT fdid, person_name,phone card_phone,sfz card_sfz   FROM card where card_code = #{card_code} and isdeleted = '0'
+      </select>
+      <!-- 持卡人查询 -->
+      <select id="qryConsumeList2"    parameterType = "com.bw.fit.spm.model.Common"  resultType="com.bw.fit.spm.model.Common" > 
+              select   aa.person_name ,aa.card_code ,aa.card_phone, 
+aa.account_fee,aa.company_name  ,
+aa.area_name ,aa.state ,aa.create_time,aa.creator,
+aa.temp_str1,aa.card_sfz  from ( 
+select  ab.*  ,rownum row_no  from ( SELECT    cc.person_name ,cc.card_code ,cc.phone card_phone,
+(select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='card_points' ) account_fee,
+decode((select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='state' ) ,'in_storge','有效' ,'无效' ) state ,
+(select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='create_time' ) create_time,
+(select staff_name from act_hi_varinst,staff  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=fdid ) creator,
+(select company_name from act_hi_varinst,staff a,staff2company sc,company cp  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=a.fdid
+and a.fdid = sc.staff_id and sc.company_id = cp.fdid ) company_name,
+(select area_name from act_hi_varinst,staff a,staff2company sc,company cp,area aa  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=a.fdid
+and a.fdid = sc.staff_id and sc.company_id = cp.fdid and aa.area_code = cp.area_code ) area_name,
+a2.proc_inst_id_ temp_str1,cc.sfz card_sfz
+FROM act_hi_varinst a1,act_hi_varinst a2 ,card cc  
+where a1.proc_inst_id_ = a2.proc_inst_id_   and a2.name_ ='card_code' and a2.text_ = cc.fdid    and cc.fdid =#{fdid}
+ and a1.name_='state' and a1.text_ = 'in_storge'   order by create_time desc  ) ab 
+ ) aa   where 1=1  <![CDATA[ and  substr(create_time,0,7) =  #{temp_str3}   ]]>
+      </select>
+      <select id="qryCardConsumeRecords"    parameterType = "com.bw.fit.spm.model.Common"  resultType="com.bw.fit.spm.model.Common" > 
+         select aa.person_name ,aa.card_code ,aa.card_phone,
+aa.account_fee,aa.company_name  ,
+aa.area_name ,aa.state ,aa.create_time,aa.creator,
+aa.temp_str1,aa.card_sfz  from ( 
+select  ab.*  ,rownum row_no  from ( SELECT    cc.person_name ,cc.card_code ,cc.phone card_phone,
+(select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='card_points' ) account_fee,
+decode((select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='state' ) ,'in_storge','有效' ,'无效' ) state ,
+(select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='create_time' ) create_time,
+(select staff_name from act_hi_varinst,staff  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=fdid ) creator,
+(select company_name from act_hi_varinst,staff a,staff2company sc,company cp  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=a.fdid
+and a.fdid = sc.staff_id and sc.company_id = cp.fdid ) company_name,
+(select area_name from act_hi_varinst,staff a,staff2company sc,company cp,area aa  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=a.fdid
+and a.fdid = sc.staff_id and sc.company_id = cp.fdid and aa.area_code = cp.area_code ) area_name,
+a2.proc_inst_id_ temp_str1,cc.sfz card_sfz
+FROM act_hi_varinst a1,act_hi_varinst a2 ,card cc  
+where a1.proc_inst_id_ = a2.proc_inst_id_   and a2.name_ ='card_code' and a2.text_ = cc.fdid  
+ and a1.name_='state' and a1.text_ = 'in_storge'   order by create_time desc  ) ab 
+ ) aa   where 1=1
+ <if test="person_name !='-9'">
+  and aa.person_name  like '%'||#{person_name}||'%'
+  </if>
+   <if test="create_time !='-9'">
+  and to_char(create_time,'yyyy-mm-dd') = #{create_time}
+  </if>
+  <if test="company_name !='-9'">
+  and company_name like '%'||#{company_name}||'%'
+  </if>
+  <![CDATA[  and row_no between #{temp_str1} and  #{temp_str2}  ]]>
+      </select>
+      <!-- 查看卡号记录数 -->
+      <select id="getPersonCardCount"    parameterType = "com.bw.fit.spm.model.Common"  resultType="com.bw.fit.spm.model.Common" > 
+       select * from card where card_code = #{temp_str1} and isdeleted='0'
+      </select>
+      <!-- 换卡 -->
+      <update id="changePersonCard"    parameterType = "com.bw.fit.spm.model.Common" >
+      update card set card_code = #{temp_str2} where card_code = #{temp_str1}
+      </update>
+      <!-- 根据卡号查询出fdid -->
+      <select id="getFdIdByCardCode"    parameterType = "com.bw.fit.spm.model.Common"  resultType="com.bw.fit.spm.model.Common" > 
+       SELECT fdid FROM card a where a.card_code = #{card_code} and isdeleted ='0'      
+      </select>
+      <!-- 商户查询本店内消费记录 -->
+            <select id="qryCardConsumeRecords2"    parameterType = "com.bw.fit.spm.model.Common"  resultType="com.bw.fit.spm.model.Common" > 
+         select aa.person_name ,aa.card_code ,aa.card_phone,
+aa.account_fee,aa.company_name  ,aa.company_id,
+aa.area_name ,aa.state ,aa.create_time,aa.creator,
+aa.temp_str1,aa.card_sfz  from ( 
+select  ab.*  ,rownum row_no  from ( SELECT    cc.person_name ,cc.card_code ,cc.phone card_phone,
+(select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='card_points' ) account_fee,
+decode((select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='state' ) ,'in_storge','有效' ,'无效' ) state ,
+(select text_ from act_hi_varinst where proc_inst_id_ = a2.proc_inst_id_  and name_='create_time' ) create_time,
+(select staff_name from act_hi_varinst,staff  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=fdid ) creator,
+(select company_name from act_hi_varinst,staff a,staff2company sc,company cp  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=a.fdid
+and a.fdid = sc.staff_id and sc.company_id = cp.fdid ) company_name,
+(select cp.fdid from act_hi_varinst,staff a,staff2company sc,company cp  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=a.fdid
+and a.fdid = sc.staff_id and sc.company_id = cp.fdid ) company_id ,
+(select area_name from act_hi_varinst,staff a,staff2company sc,company cp,area aa  where proc_inst_id_ = a2.proc_inst_id_  and name_='creator' and text_=a.fdid
+and a.fdid = sc.staff_id and sc.company_id = cp.fdid and aa.area_code = cp.area_code ) area_name,
+a2.proc_inst_id_ temp_str1,cc.sfz card_sfz
+FROM act_hi_varinst a1,act_hi_varinst a2 ,card cc  
+where a1.proc_inst_id_ = a2.proc_inst_id_   and a2.name_ ='card_code' and a2.text_ = cc.fdid  
+ and a1.name_='state' and a1.text_ = 'in_storge'   order by create_time desc  ) ab 
+ ) aa   where 1=1
+ <if test="person_name !='-9'">
+  and aa.person_name like '%'||#{person_name}||'%'
+  </if>
+   <if test="create_time !='-9'">
+  and to_char(create_time,'yyyy-mm-dd') = #{create_time}
+  </if>
+  <if test="company_name !='-9'">
+  and company_id  = #{company_id} 
+  </if>
+  <if test="card_phone !='-9'">
+  and aa.card_phone  = #{card_phone} 
+  </if>
+  <![CDATA[  and row_no between #{temp_str1} and  #{temp_str2}  ]]>
+      </select>
+</mapper> 

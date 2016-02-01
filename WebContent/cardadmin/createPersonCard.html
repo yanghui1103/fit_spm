@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="renderer" content="ie-comp">
+<script type="text/javascript" src="cardadmin/createPersonCard.js"></script>
+</head>
+<body>
+<div class="pageContent">
+	<form method="post" action=""    class="pageForm required-validate">
+		<div class="pageFormContent" layoutH="56">
+			<p>
+				<label>卡号：</label>
+				<input id="create_card_no" class="required" type="text"   maxlength=8  size="30"  />
+			</p>					
+		<div class="divider"></div>
+			<p>
+				<label>所属住区：</label>
+				<select id="create_card_village" class="required combox ">
+				</select>
+			</p>	
+				<p>
+				<label>所属家庭：</label>
+				<select id="create_card_house" class="required combox ">
+				</select>
+			</p>	 
+			<p>
+				<label>持卡人姓名：</label>
+				<input id="create_cardusername" class="required" type="text"   maxlength=10  size="30"  />
+			</p>
+			<p>
+				<label>持卡人电话：</label>
+				<input id="create_carduserphone" class="required" type="text"   maxlength=11  size="30"  />
+			</p>
+			<p>
+				<label>持卡人身份证：</label>
+				<input type="text" id=create_carduserno   maxlength=18   size="30" />
+			</p>
+		</div>
+		<div>持卡人电话，应该保证真实有效，且为日后挂失补卡及提成使用提供唯一参考。</div>
+		<div class="formBar" id="createCardSubBar">
+		</div>
+	</form>
+	
+</div> 
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="renderer" content="ie-comp">
+<script type="text/javascript" src="./common/js/baiduTemplate.js"></script>
+<script type="text/javascript" src="./common/js/tangram-min.js"></script>
+<script type="text/javascript" src="common/js/common.js"></script> 
+<script type="text/javascript" >
+function init_list_page(){
+	var arr = new Array(20);
+	for ( var i=0;i<arr.length;i++) {
+		arr[i] = "-9";
+	}
+	arr[0] = "AREA"; 
+	 var eobj = createParamJson(arr); 
+	 alert(eobj);
+	 var eJson = JSON.stringify(eobj);  
+	 alert(eJson);
+	 takeTypeDataListV2($("#area_list"),"getSysItems.action","1",  eJson);		
+}
+</script>
+</head>
+<body onload="init_list_page();">
+<div>
+	<table  >
+		<tr>
+			<td><select  id="area_list"/>
+			</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

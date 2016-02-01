@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="process" name="myProcess" isExecutable="true">
+    <startEvent id="start"/>
+    <userTask id="in" name="消费录入" activiti:assignee="merchant">
+      <extensionElements>
+        <activiti:formProperty id="card_code" name="卡号" type="string"/>
+        <activiti:formProperty id="card_points" name="积分值" type="long"/>
+        <activiti:formProperty id="create_time" name="录入时间" type="string"/>
+        <activiti:formProperty id="creator" name="录入员" type="string"/>
+        <activiti:formProperty id="source_code" name="来源方式" type="string"/>
+        <activiti:formProperty id="state" name="状态" type="string"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-0CEE0131-893D-4E28-8C19-1EE5E86CBEA5" sourceRef="start" targetRef="in"/>
+    <userTask id="audit" name="审核" activiti:assignee="sysAdmin">
+      <extensionElements>
+        <activiti:formProperty id="audit_state" name="消费审核" type="string"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-64551131-5809-4945-AE26-9B609AC1995D" sourceRef="in" targetRef="audit"/>
+    <userTask id="over" name="进库" activiti:assignee="inStorge"/>
+    <sequenceFlow id="sid-55EAF92D-2B43-42B4-B4F8-D859EBA9D44C" sourceRef="audit" targetRef="over"/>
+    <endEvent id="end"/>
+    <sequenceFlow id="sid-E515AA23-E3F2-4BCB-8305-91424C9BE620" sourceRef="over" targetRef="end"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process">
+    <bpmndi:BPMNPlane bpmnElement="process" id="BPMNPlane_process">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="120.0" y="75.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="in" id="BPMNShape_in">
+        <omgdc:Bounds height="80.0" width="100.0" x="204.0" y="50.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="audit" id="BPMNShape_audit">
+        <omgdc:Bounds height="80.0" width="100.0" x="349.0" y="50.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="over" id="BPMNShape_over">
+        <omgdc:Bounds height="80.0" width="100.0" x="494.0" y="50.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="639.0" y="76.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-0CEE0131-893D-4E28-8C19-1EE5E86CBEA5" id="BPMNEdge_sid-0CEE0131-893D-4E28-8C19-1EE5E86CBEA5">
+        <omgdi:waypoint x="150.0" y="90.0"/>
+        <omgdi:waypoint x="204.0" y="90.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-E515AA23-E3F2-4BCB-8305-91424C9BE620" id="BPMNEdge_sid-E515AA23-E3F2-4BCB-8305-91424C9BE620">
+        <omgdi:waypoint x="594.0" y="90.0"/>
+        <omgdi:waypoint x="639.0" y="90.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-55EAF92D-2B43-42B4-B4F8-D859EBA9D44C" id="BPMNEdge_sid-55EAF92D-2B43-42B4-B4F8-D859EBA9D44C">
+        <omgdi:waypoint x="449.0" y="90.0"/>
+        <omgdi:waypoint x="494.0" y="90.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-64551131-5809-4945-AE26-9B609AC1995D" id="BPMNEdge_sid-64551131-5809-4945-AE26-9B609AC1995D">
+        <omgdi:waypoint x="304.0" y="90.0"/>
+        <omgdi:waypoint x="349.0" y="90.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

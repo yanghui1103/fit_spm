@@ -1,0 +1,88 @@
+<script type="text/javascript">
+var rows = 1;
+var total = "15" ; // 共15条
+var actualTotal = 0 ;
+var pageNo = 1 ; //当前页数
+var pageTotalNo =1 ; //总页数
+$(document).ready(function(){	
+	 var arr = new Array(20);
+	 for(var i in arr.length){
+		 arr[i] = "-9";		 
+	 }arr[0] = "107";
+	 var eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj); 
+	 renderBtnsToDiv($("#orgsListSubBar"),'getAuthorityBtnsByThisUser.action',eJson);
+	 qryOrgInfoList($("#allOrgsDiv").find("table").eq(1),1);
+	//getOrgInfoList(1);
+	// rows = $("#tabInfos2 tr").length ; 
+
+});
+$("#qry107").click(function(){  
+	qryOrgInfoList($("#allOrgsDiv").find("table").eq(1),1);
+});
+
+function qryOrgInfoList(obj,pageNo){ 
+	obj.find("tr").remove();
+	var arr = new Array(20);
+	 for(var i in arr.length){
+		 arr[i] = "-9";		 
+	 }arr[0] =$("#orgName").val();
+	 arr[1] =$("#orgNum").val();
+	 arr[2] =pageNo;
+	 var eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj); 
+	//var edom = createParamDom3(document.getElementById('orgNameTop').value,document.getElementById('orgNumTop').value,pageNo); 
+	var ttDom = AjaxExchangeBackXMLDataByJson('getAllOrgs.action',eJson);   
+    var s = $.parseXML(ttDom.xml );  
+    obj.append("<tbody>");
+	   	$(s).find('org').each(function() {
+	   		var table = obj; 
+		 	 var xml = $(this);
+		 	var tr = "<tr class = list-blue target=sid_user><td width=150><input id=orgListFdId class=checkboxCtrl type=checkbox value="+xml.children("company_cd").text()+
+		 	 "></input><td width=235>"+xml.children("company_cd").text()+
+		 	 "</td><td width=235>"+xml.children("company_name").text()+
+		 	 "</td><td width=235>"+xml.children("level").text()+
+		 	 "</td><td width=235>"+xml.children("up_company_name").text()+
+		 	 "</td></tr>";
+		 	table.append(tr);  
+	   });  
+	   obj.append("</tbody>");
+}
+ 
+</script>
+<div class="pageHeader">
+	<form  method="post" >
+	<div class="searchBar">
+		<ul class="searchContent">
+			<li>
+				<label>机构名称:</label>
+				<input class="textInput"  id	="orgName" value="" type="text">
+			</li>	  
+			<li>
+				<label>机构编号:</label>
+				<input class="textInput" id="orgNum" value="" type="text">
+			</li>
+			
+		</ul>
+		<div class="subBar" id="orgsListSubBar">
+		</div>
+	</div>
+	</form>
+</div>
+<div id = "allOrgsDiv">
+<div  class="pageContent">
+
+	<table id="tabInfos2"   class="table"  layoutH="118"   width="100%">
+		<thead>
+			<tr>			
+				<th width="80"></th>
+				<th width="120">机构编号</th>
+				<th width="120">机构名称</th>
+				<th width="120">机构级别</th>
+				<th width="120">上级机构</th>
+			</tr>
+		</thead>			
+	</table>
+	<table  class="table"  layoutH="118"   width="100%"></table>
+ </div>
+</div>

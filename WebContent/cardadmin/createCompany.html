@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="renderer" content="ie-comp">
+<script type="text/javascript" src="cardadmin/createCompany.js"></script> 
+</head>
+<body>
+<div class="pageContent">
+	<form method="post" action=""    class="pageForm required-validate">
+		<div class="pageFormContent" layoutH="56">
+			<p>
+				<label>主体名称：</label>
+				<input id="create_company_name" class="required" type="text"   maxlength=10  size="30"  alt="请输入主体名称"/>
+			</p>		
+			<p>
+				<label>主体类型：</label>
+				<select id="create_type" class="required combox">
+				</select>
+			</p>
+			<p>
+				<label>上级主体名称：</label>
+				<input type="text"  id="create_uporg_name" class="required" readonly name="orgLookup.orgName" value="" suggestFields="orgNum,orgName"   lookupGroup="orgLookup" />
+				<a class="btnLook" href="system/getAllOrgs.html" lookupGroup="orgLookup">查找带回</a>		
+			</p>
+			<p>
+				<label>上级主体编码：</label>
+				<input type="text"  class="required" readonly="readonly"  id="create_uporg_id" name="orgLookup.id" />
+			</p>	
+			<p>
+				<label>主体级别：</label>
+				<input type="text" id=createComp_level readonly="readonly"  size="30" />
+			</p>
+			<p>
+				<label>属地：</label>
+				<select id="create_areacd" class="required combox">
+				</select>
+			</p>
+			<p>
+				<label>责任人：</label>
+				<input type="text" id=createComp_admin size="30" />
+				</select>
+			</p>
+			<p>
+				<label>责任人电话：</label>
+				<input type="text" id=createComp_adminphone size="30" />
+				</select>
+			</p>
+			<p>
+				<label>地址：</label>
+				<input type="text" id=createComp_address size="30" />
+			</p>
+		</div>
+		<div class="formBar" id="createNewCompSubBar">
+		</div>
+	</form>
+</div> 
+</body>
+</html>

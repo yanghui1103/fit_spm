@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript">
+$(document).ready(function(){
+	 var arr = new Array(20);
+	 for(var i in arr.length){
+		 arr[i] = "-9";		 
+	 }
+	 arr[0] = "ROLE";
+	 eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj);  
+	 takeTypeDataListV2($("#createUser_role_cd"),"getSysItems.action","1", eJson);	 
+	 arr[0] = "STAFFTYPE";
+	 eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj);  
+	 takeTypeDataListV2($("#createUser_type_cd"),"getSysItems.action","1", eJson);	
+	 // 将按照该用户的权限显示,DIV
+	 arr[0] = "101";
+	 eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj); 
+	 renderBtnsToDiv($("#createUserSubBar"),'getAuthorityBtnsByThisUser.action', eJson);
+
+});
+
+baidu("#create101").click(function(){
+	var createUser_user_cd = $("#createUser_user_cd").val() ?"-9":$("#createUser_user_cd").val();
+	var createUser_user_name = $("#createUser_user_name").val() ?"-9":$("#createUser_user_name").val();
+	var createUser_org_name = $("#createUser_org_name").val()?"-9":$("#createUser_org_name").val();
+	var createUser_org_id = $("#createUser_org_id").val()?"-9":$("#createUser_org_id").val();
+	var createUser_phone = $("#createUser_phone").val() ?"-9":$("#createUser_phone").val();
+	var createUser_fixedphone = $("#createUser_fixedphone").val()?"-9":$("#createUser_fixedphone").val();
+	var createUser_address = $("#createUser_address").val() ?"-9":$("#createUser_address").val();
+	var createUser_role_cd = $("#createUser_role_cd").val()?"-9":$("#createUser_role_cd").val();
+	var createUser_entry_time = $("#createUser_entry_time").val()?"-9":$("#createUser_entry_time").val();
+	var createUser_type_cd = $("#createUser_type_cd").val()?"-9":$("#createUser_type_cd").val();
+	 var array = new Array(createUser_user_cd, createUser_user_name,createUser_org_name,
+			 createUser_org_id, createUser_phone,createUser_fixedphone,
+			 createUser_address, createUser_role_cd,createUser_entry_time,createUser_type_cd);  
+		createJsonAndAjax(
+				'createNewSysUser.action',
+				array,
+				dealCreateUserMsg,'JSON'
+	    );
+	});
+	function dealCreateUserMsg(data){
+		alertToUserMsg(data);		
+	}
+</script>
+</head>
+<div class="pageContent">
+
+<ul id="errorlist"></ul>
+	<form method="post" action=""  id=createUserForm class="pageForm required-validate">
+		<div class="pageFormContent" layoutH="56">
+			<p>
+				<label>用户编号：</label>
+				<input id="createUser_user_cd" type="text" size="30"   class="required" alt="请输入用户编号"/>
+			</p>
+			<p>
+				<label>用户名称：</label>
+				<input id="createUser_user_name" class="required" type="text" size="30"  alt="请输入用户名称"/>
+			</p>
+			<p>
+				<label>部门名称：</label>
+				<input type="text"  id="createUser_org_name" class="required" readonly name="orgLookup.orgName" value="" suggestFields="orgNum,orgName"   lookupGroup="orgLookup" />
+				<a class="btnLook" href="system/getAllOrgs.html" lookupGroup="orgLookup">查找带回</a>		
+			</p>
+			<p>
+				<label>部门编号：</label>
+				<input type="text"  class="required" readonly="readonly"  id="createUser_org_id" name="orgLookup.id" />
+			</p>
+			<p>
+				<label>电话号码：</label>
+				<input id="createUser_phone" class="digits" type="text" size="30" alt="请输入11位数字"/>
+			</p>
+			<p>
+				<label>固定电话：</label>
+				<input id="createUser_fixedphone" class="digits" type="text" size="30" alt="请输入11位数字"/>
+			</p>
+			<p>
+				<label>地址：</label>
+				<input type="text" id=createUser_address size="30" />
+			</p>
+						<p>
+				<label>角色：</label>
+				<select id="createUser_role_cd" class="required combox"> 
+				</select>
+			</p>
+			<p>
+				<label>人员类型：</label>
+				<select id="createUser_type_cd" class="required combox"> 
+				</select>
+			</p> 
+				<p>
+				<label>入职时间：</label>
+				<input id=createUser_entry_time  type="text" class="date required" readonly="true" />
+			</p>
+		</div>
+		<div id="createUserSubBar" class="formBar">
+		</div>
+	</form>
+</div> 

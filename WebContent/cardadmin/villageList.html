@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript"  src="cardadmin/villageList.js"></script>
+</head>
+<body>
+<div class="pageHeader">
+	<div class="searchBar">
+		<ul class="searchContent">
+			<li>
+				<label>商业主体：</label>				
+			<select class="combox"  id="village_list_company">
+			</select>
+			</li>
+		</ul>		
+		<div class="subBar"  id="village_list_Bar">
+		</div>
+	</div>
+</div>
+
+<div class="pageContent">
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><span id="villageListFirst">首页</span></li>
+			<li><span id="villageListBefore">上一页</span></li>
+			<li><span id="villageListNext">下一页</span></li>
+			<li><span id="villageListEnd">尾页</span></li>			
+		</ul>
+	</div>
+
+	<div id="w_list_print">
+	<table class="list" width="99%" targetType="navTab" asc="asc" desc="desc" layoutH="116">
+		<thead>
+			<tr>
+				<th width="5%" ></th>
+				<th width="20%" >社区名称</th>
+				<th width="20%" >社区地址</th>
+				<th width="15%" >所属主体</th>
+				<th width="20%">录入时间</th>
+				<th width="20%">录入员</th>
+			</tr>
+		</thead>
+		<tbody id="village_listTbody">			
+		</tbody>
+	</table>
+	</div>	
+</div>
+</body>
+</html>

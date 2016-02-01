@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<!DOCTYPE struts PUBLIC   
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+        "http://struts.apache.org/dtds/struts-2.0.dtd">  
+<struts>
+	<package name="userAdmin" extends="struts-default" > 	           
+        <action name="getThisUserInfo"   class="userInfoAction"  method="getThisUserInfo"   />     
+        <!-- 查询账户消费记录 -->
+        <action name ="getTheAccountConsumeList" class ="userInfoAction"  method="getTheAccountConsumeList"  /> 
+        <!-- 查询账户简要信息 -->
+        <action name ="getThisUserAccountInfo" class="userInfoAction"   method="getThisUserAccountInfo"  />
+	</package>  
+</struts>  

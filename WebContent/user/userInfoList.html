@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+var total = "15" ; // 共15条
+var actualTotal = 0 ;
+var pageNo = 1 ; //当前页数
+var pageTotalNo =1 ; //总页数
+$(document).ready(function(){	
+	var arr = new Array(20);
+	 for(var i in arr.length){
+		 arr[i] = "-9";		 
+	 }arr[0] = "102";
+	 var eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj); 
+	 renderBtnsToDiv($("#userListSubBar"),'getAuthorityBtnsByThisUser.action', eJson); 
+		initUserInfoList($("#allUserInfoListDiv").find("table").eq(1).find("tbody"),"0"); 	
+	});
+$("#qry102").click(function(){
+	if($("#userInfokeyword").val()=="" && $("#userInfoorg_id").val()=="" ){
+		alertMsg.error("请填写非空项！");
+		return ;
+	}
+	initUserInfoList($("#allUserInfoListDiv").find("table").eq(1).find("tbody"),"0"); 	
+});
+function initUserInfoList(obj,page_num){ 
+	obj.find("tr").remove();
+	//把本级机构及以下机构的人员查询出来
+	var arr = new Array(20);
+	 for(var i in arr.length){
+		 arr[i] = "-9";		 
+	 }arr[0] = "9001";
+	 arr[1]= page_num ;
+	 arr[2]= total ;
+	 arr[3]=$("#userInfokeyword").val()==""?"-9":$("#userInfokeyword").val();
+	 arr[4]=$("#userInfoorg_id").val()==""?"-9":$("#userInfoorg_id").val();
+	 var eobj = createParamJson(arr); 	 
+	 var eJson = JSON.stringify(eobj);  
+	var ttDom = AjaxExchangeBackXMLDataByJson('getUserListUnderTheStation.action',eJson);    
+    var s = $.parseXML(ttDom.xml );
+	   	$(s).find('user').each(function() {  
+		 	 var table = obj; 
+		 	 var xml = $(this);
+		 	 var tr = "<tr class = list-blue target=sid_user><td width=5%><input id=userfdid class=checkboxCtrl type=checkbox value="+xml.children("user_cd").text()+
+		 	 "></input><td width=10%>"+xml.children("user_cd").text()+
+		 	 "</td><td width=10%>"+xml.children("user_name").text()+
+		 	 "</td><td width=10%>"+xml.children("phone").text()+
+		 	 "</td><td width=15%>"+xml.children("fixed_phone").text()+
+		 	 "</td><td width=30%>"+xml.children("address").text()+
+		 	 "</td><td width=10%>"+xml.children("peculiarity_name").text()+
+		 	 "</td><td width=10%>"+xml.children("company_name").text()+
+		 	 "</td></tr>";
+		 	table.append(tr); 
+	   }); 
+}	
+
+</script>
+</head>
+<div class="pageHeader">
+	<form onsubmit="return navTabSearch(this);"   method="post">
+	<div class="searchBar">		
+		<table class="searchContent">
+			<tr>
+				<td>
+					关键词：<input class="orgReqCss" type="text" id="userInfokeyword" />
+				</td>
+				<td>
+				<p>
+				<label>部门名称：</label>
+				<input type="text"  id="userInfoorg_name" class="required" readonly name="orgLookup.orgName" value="" suggestFields="orgNum,orgName"   lookupGroup="orgLookup" />
+				<a class="btnLook" href="system/getAllOrgs.html" lookupGroup="orgLookup">查找带回</a>						
+				<input type="hidden"  class="required orgReqCss" readonly="readonly"  id="userInfoorg_id" name="orgLookup.id" />
+			</p>
+				</td> 
+			</tr>
+		</table>
+		<div class="subBar" id="userListSubBar">
+			
+		</div>
+	</div>
+	</form>
+</div>
+<div id = "allUserInfoListDiv">
+<div class="pageContent">
+	<table class="table" width="100%" heigth="100%" layoutH="110">
+		<thead>
+			<tr>
+				<th width="5%"></th>
+				<th width="10%">用户编号</th>
+				<th width="10%">用户名称</th>
+				<th width="15%">手机号码</th>
+				<th width="10%">固定电话</th>
+				<th width="30%">地址</th>
+				<th width="10%">性格</th>
+				<th width="10%">所属机构</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table> 
+ <div class="panelBar">
+		<div class="pages"> 
+			<ul>
+				<li><div class="buttonActive"><button>首页</button></div></li>
+				<li><div class="buttonActive"><button>上一页</button></div></li>
+				<li><div class="buttonActive"><button>下一页</button></div></li>
+				<li><div class="buttonActive"><button>尾页</button></div></li>				 
+			</ul> 
+		</div>		
+	</div>
+</div>

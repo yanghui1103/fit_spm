@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="companyAdminDAO">
+	<!-- 新建商户主体资料 -->
+	<insert id="createCompanyInfo" parameterType="com.bw.fit.spm.model.Common">
+		insert into company
+		(fdid,company_name,address,state,adminor,admin_phone,comp_level,parent_company_id,create_time,version_time,creator,company_type_cd,area_code,isDeleted)
+		values
+		(#{fdid},#{company_name},#{company_address},'2',#{company_admin},#{company_admin_phone},
+		#{company_level},#{parent_company_id},to_date(#{create_time},'yyyy-mm-dd
+		hh24:mi:ss'),to_date(#{version_time},'yyyy-mm-dd
+		hh24:mi:ss'),#{creator},#{company_type_code},#{area_code},'0')
+	</insert>
+	<!-- 新建社区资料 -->
+	<insert id="createVillageInfo" parameterType="com.bw.fit.spm.model.Common">
+		insert into village
+		(fdid,name,state,create_time,version_time,creator,address,isDeleted)
+		values
+		(#{fdid},#{village_name},'2',to_date(#{create_time},'yyyy-mm-dd hh24:mi:ss'),to_date(#{version_time},'yyyy-mm-dd
+		hh24:mi:ss'),#{creator},#{village_address},'0')
+	</insert>
+	<!-- 新建家庭资料 -->
+	<insert id="createHouseInfo" parameterType="com.bw.fit.spm.model.Common">
+		insert into house
+		(fdid,house_name,state,isdeleted,create_time,version_time,creator)
+		values
+		(#{fdid},#{house_name},'2','0',to_date(#{create_time},'yyyy-mm-dd
+		hh24:mi:ss'),to_date(#{version_time},'yyyy-mm-dd
+		hh24:mi:ss'),#{creator})
+	</insert>
+	<!-- 制卡 -->
+	<insert id="createCardInfo" parameterType="com.bw.fit.spm.model.Common">
+		insert into card
+		(fdid,person_name,card_code,phone,sfz,state,isdeleted,create_time,version_time,creator)
+		values
+		(#{fdid},#{person_name},#{card_code},#{card_phone},#{card_sfz},'2','0',to_date(#{create_time},'yyyy-mm-dd
+		hh24:mi:ss'),to_date(#{version_time},'yyyy-mm-dd
+		hh24:mi:ss'),#{creator})
+	</insert>
+	<!-- 建卡的账户 -->
+	<insert id="createCardAccount" parameterType="com.bw.fit.spm.model.Common">
+		insert into account
+		(fdid,account_name,state,isdeleted,create_time,version_time,creator,fee)
+		values
+		(#{account_id},#{account_name},'2','0', to_date(#{create_time},'yyyy-mm-dd
+		hh24:mi:ss'),to_date(#{version_time},'yyyy-mm-dd
+		hh24:mi:ss'),#{creator} ,#{account_fee})
+	</insert>
+	<!-- 创建卡与账户的关系 -->
+	<insert id="createCardAccountRelation" parameterType="com.bw.fit.spm.model.Common">
+		insert into card2account (card_id,account_id) values
+		(#{fdid},#{account_id})
+	</insert>
+	<!-- 创建家庭与卡的关系 -->
+	<insert id="createHouseCardRelation" parameterType="com.bw.fit.spm.model.Common">
+		insert into house2account (house_id,house_account_id) values
+		(#{house_id},#{house_account_id})
+	</insert>
+	<!-- 创建社区与商业主体 -->
+	<insert id="createVillageCompanyRelation" parameterType="com.bw.fit.spm.model.Common">
+		insert into village2company (village_id,company_id) values
+		(#{village_id},#{company_id})
+	</insert>
+	<!-- 根据主体查询社区 -->
+	<select id="qryVillageList" parameterType="com.bw.fit.spm.model.Common"
+		resultType="com.bw.fit.spm.model.Common">
+		SELECT v.fdid ,v.name village_name ,v.address
+		village_address,v.create_time,
+		(select staff_name from staff a where a.fdid = v.creator) creator
+		,cp.company_name
+		FROM village v ,village2company vc ,company cp
+		where v.fdid = vc.village_id and cp.fdid = vc.company_id
+		<if test="company_id !='-9'">
+			and vc.company_id = #{company_id}
+		</if>
+			<![CDATA[ and rownum > #{temp_str1} and rownum < #{temp_str2}  ]]>
+	</select>
+	<!-- 建立社区与家庭关系 -->
+	<insert id="createVillageHouseRelation" parameterType="com.bw.fit.spm.model.Common">
+		insert into house2village (village_id,house_id) values
+		(#{village_id},#{fdid})
+	</insert>
+	<!-- card2house卡与家庭关系 -->
+	<insert id="createCard2house" parameterType="com.bw.fit.spm.model.Common">
+		insert into card2house (card_id,house_id) values (#{fdid},#{house_id})
+	</insert>
+	<!-- 建立家庭de账户关系 -->
+	<insert id="createHouseAccount" parameterType="com.bw.fit.spm.model.Common">
+		insert into house_account
+		(fdid,house_account_name,state,isDeleted,create_time,version_time,creator)
+		values
+		(#{house_account_id},#{house_account_name},'2','0',to_date(#{create_time},'yyyy-mm-dd
+		hh24:mi:ss'),to_date(#{version_time},'yyyy-mm-dd
+		hh24:mi:ss'),#{creator})
+	</insert>
+	<!-- 根据地区，查询商业资料 -->
+	<select id="qryCompanyList" parameterType="com.bw.fit.spm.model.Common"
+		resultType="com.bw.fit.spm.model.Common">
+		SELECT a.fdid , a.company_name,a.address
+		company_address,a.state,a.create_time,st.staff_name,(select area_name
+		from area where area_code = a.area_code) area_name
+		FROM company a,staff
+		st where st.fdid = a.creator
+		<if test="company_id !='-9'">
+			and a.area_code = #{company_id}
+		</if>
+			<![CDATA[ and rownum > #{temp_str1} and rownum < #{temp_str2}  ]]>
+	</select>
+	<!-- 卡查询 -->
+	<select id="qryCardInfoList" parameterType="com.bw.fit.spm.model.Common"
+		resultType="com.bw.fit.spm.model.Common">
+		select cc.fdid ,cc.person_name,cc.card_code,cc.phone
+		card_phone,vl.name village_name,cp.company_name ,(select area_name
+		from area where area_code=cp.area_code) area_name,
+		cc.create_time,(select staff_name from staff where fdid = cc.creator)
+		staff_name
+		from card cc,card2house ch,house2village hv ,village2company vc,village
+		vl,company cp
+		where cc.fdid = ch.card_id and ch.house_id = hv.house_id and vc.village_id
+		= hv.village_id
+		and vl.fdid = hv.village_id and cp.fdid=vc.company_id and cc.isDeleted =
+		'0'
+		<if test="company_id !='-9'">
+			and vc.company_id = #{company_id}
+		</if>
+		<!-- -->
+		<if test="person_name !='-9'">
+			and person_name like '%'||#{person_name}||'%'
+		</if>
+		<if test="card_phone !='-9'">
+		  and cc.phone  like '%'||#{card_phone}||'%'
+		  </if>
+		<if test="card_code !='-9'">
+    	 and cc.card_code like  '%'||#{card_code}||'%'
+     	</if>		
+ 			<![CDATA[ and rownum > #{temp_str1} and rownum < #{temp_str2}  ]]>
+		order by cc.create_time desc
+	</select>
+	<!-- 删除卡 假删 -->
+	<update id="deleteCardInfoList" parameterType="com.bw.fit.spm.model.Common">
+		update card set isDeleted =
+		'1',operator=#{operator},version_time=to_date(#{version_time},'yyyy-mm-dd
+		hh24:mi:ss') where fdid = #{card_id}
+	</update>
+	<!-- 修改密码 -->
+	<update id="changeUserPasswd" parameterType="com.bw.fit.spm.model.Common">
+		update staff set passwd = #{temp_str1} where fdid = #{staff_number}
+	</update>
+	<!-- 地区商户列表 -->
+	<select id="getCompanyListByArea" parameterType="com.bw.fit.spm.model.Common"
+		resultType="com.bw.fit.spm.model.Common">
+		SELECT company_name,admin_phone company_admin_phone,ct.name
+		company_type_name FROM company a,company_type ct where
+		a.company_type_cd = ct.fdid and a.isDeleted='0' and
+		a.area_code=#{area_code}
+		and ct.isBussiness = '1'
+	</select>
+	<!-- 获取房屋信息列表 -->
+	<select id="qryHouseInfoList" parameterType="com.bw.fit.spm.model.Common"
+		resultType="com.bw.fit.spm.model.Common">
+		select hs.house_name ,vl.name village_name,cp.company_name ,
+		aa.area_name ,hs.create_time ,(select staff_name from staff where fdid =
+		hs.creator) creator,hs.fdid
+		from house hs,house2village hv,village vl,company cp, village2company vc
+		,area aa
+		where hs.fdid = hv.house_id and hv.village_id = vl.fdid and vl.fdid =
+		vc.village_id
+		and vc.company_id = cp.fdid and cp.area_code = aa.area_code
+		<if test="house_name !='-9'">
+		 and house_name like '%'||#{house_name}||'%'
+		</if>
+		<if test="company_id !='-9'">
+		and vc.company_id  = #{company_id}
+		</if>
+		<if test="village_id !='-9'">
+		and hv.village_id = #{village_id}
+		</if>		
+			<![CDATA[ and rownum > #{temp_str1} and rownum < #{temp_str2}  ]]>
+		order by hs.create_time desc
+	</select>
+</mapper> 

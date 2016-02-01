@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="renderer" content="ie-comp">
+<script type="text/javascript"  src="cardadmin/changeCard.js"></script>
+</head>
+<body>
+<div class="pageContent">
+		<div class="pageFormContent" layoutH="56">
+			<p>
+				<label>原卡号：</label>
+				<input id="change_code" class="required" type="text"   maxlength=10  size="30"  alt="请输入卡号"/>
+				<button id="getBtn2">获取</button>
+			</p>		
+			<p>
+				<label>卡主姓名：</label>
+				<input id="change_user"  readonly  class="required" type="text"   size="30"  />
+			</p>
+			<p>
+				<label>卡主电话：</label>
+				<input id="change_phone" class="required" type="text"     size="30"  readonly/>
+			</p>		
+			<p>
+				<label>卡主身份证：</label>
+				<input id="change_sfz" class="required" type="text"     size="30"  readonly/>
+			</p>		
+		<div class="divider"></div>
+			<p>
+				<label>输入新卡号：</label>
+				<input type="text" id=change_card1 class="required"  size="30" />
+			</p>
+			<p>
+				<label>重复新卡号：</label>
+				<input type="text" id=change_card2 class="required"  size="30" />
+			</p>
+		</div>
+		<div class="formBar" id="changeCardSubBar">
+		</div>
+</div> 
+</body>
+</html>

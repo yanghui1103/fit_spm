@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="sysAuthenticationDAO"> 
+    <select id="getNextVal"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+      select seq_crm.nextval param1 from dual 
+    </select>
+    <!--getThisUserAuthLists 获取权限列表  -->
+    <select id="getThisUserAuthLists"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+      SELECT fs.fdid param5,fs.function_name param1 ,fs.parent_function_id param2,fs.func_level param3 ,fs.action param4,fs.target param6,fs.rel param7
+    FROM staff u,staff2roles ur,role2function rf ,functions fs,function_btn fb
+    WHERE u.fdid = ur.staff_id 
+    AND ur.role_id = rf.role_id
+    AND rf.function_id = fb.function_cd
+    AND fs.fdid = fb.function_cd
+    AND rf.btn_cd = fb.btn_cd
+    AND rf.state = fs.state
+    AND fs.state = '2'
+    AND fb.btn_cd = 'view'
+    AND u.fdid =  #{param1} ORDER BY param5 asc
+     </select>
+     <!-- getDragWindowList获取下拉框 -->
+     <select id="getDragWindowList"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+       SELECT id param1,NAME param2,state param3 FROM vw_sys_item a WHERE TYPE =#{param1} and state = '2'
+     </select>
+     <!-- getRoleExistAuthList 获取角色已经存在的功能树 -->
+     <select id="getRoleExistAuthList"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+		SELECT fs.fdid param1,fs.function_name param2 ,fs.parent_function_id param3,fs.func_level param4 
+    FROM  role2function rf ,functions fs,function_btn fb
+    WHERE rf.function_id = fb.function_cd
+    AND fs.fdid = fb.function_cd
+    AND rf.btn_cd = fb.btn_cd
+    AND fb.btn_cd = 'view'
+    AND fs.state = '2'
+    AND rf.state = '2'
+    AND rf.role_id = #{param1}
+	        ORDER BY param1 ASC      
+     </select>
+     <!-- getAllAuthList 获取全部可用功能树 -->
+     <select id="getAllAuthList"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+         SELECT fs.fdid param1,fs.function_name param2,fs.parent_function_id param3,fs.func_level param4 
+ 		 FROM functions fs WHERE state ='2'  
+       </select>
+     <!-- getFuncBtnList 获取功能下按钮的树 -->
+     <select id="getFuncBtnList"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+		SELECT btn_cd param1,btn_name param2,function_cd param3,'4' param4 FROM function_btn  fb     
+     </select>
+     <!-- getCheckFuncBtnList 以选中的按钮树 -->
+     <select id="getCheckFuncBtnList"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+		     SELECT fb.btn_cd param1,btn_name param2,fb.function_cd param3,'4' param4
+    FROM role2function rf,function_btn fb
+    WHERE rf.function_id = fb.function_cd
+    AND rf.btn_cd = fb.btn_cd
+    AND rf.state = '2' 
+		AND rf.role_cd = #{param1}
+     </select>
+     <!-- getUserListUnderTheStation 获取本级以下用户 -->
+     <select id="getUserListUnderTheStation"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+        SELECT a.staff_number  param1,a.staff_name param2,a.phone param3,'-9' param4 ,a.address param5,a.fdid param6 ,cc.company_name param7,'-9' param8
+     FROM staff a,staff2company uc ,company cc
+     WHERE   cc.fdid = uc.company_id
+     AND a.fdid = uc.staff_id 
+     AND a.state = '2'
+		 <if test = "company_number !='-9'" >
+		 	AND cc.fdid=#{company_number}
+		 </if>
+		 <if test = "param4 !='-9'" >
+            AND a.staff_name like '%' #{param4} '%'
+         </if>
+ 		order by a.staff_number asc 
+		<![CDATA[ LIMIT #{param39},#{param40}]]>  
+     </select>
+          <select id="getUserListUnderTheStationTotal"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+       SELECT a.staff_number  param1,a.staff_name param2,a.phone param3,'-9' param4 ,a.address param5,a.fdid param6 ,cc.company_name param7,'-9' param8
+     FROM staff a,staff2company uc ,company cc
+     WHERE   cc.fdid = uc.company_id
+     AND a.fdid = uc.staff_id 
+     AND a.state = '2'
+		 AND cc.fdid =#{company_number}
+		 </select>
+     <!-- createNewRoleService 创建角色 -->
+     <insert id="createNewRoleService"   parameterType = "com.bw.common.model.CommonMedol">
+        insert into roles values (#{param3},#{param4},#{param1},'2',#{param2})
+     </insert>
+     <insert id="createNewPositionService"   parameterType = "com.bw.common.model.CommonMedol">
+        insert into positions values (#{param3},#{param4},#{param1},'2',#{param2})
+     </insert>
+     <select id="getMaxRoleCd"  parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+  		select max(role_cd)+1 param1 from roles
+ 	 </select>
+ 	 <select id="getMaxPositionCd"  parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+  		select max(pid)+1 param1 from positions
+ 	 </select>
+ 	 <!-- getAllOrgsService 获取组织架构 -->
+ 	 <select id="getAllOrgsService"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+		SELECT a.fdid param1,a.company_name param2,a.comp_level param3,(SELECT company_name FROM company WHERE fdid = a.parent_company_id ) param4,a.state param5,a.parent_company_id param6
+     FROM company a WHERE   a.state='2' 
+ 		<if test = "param1 !='-9'" >
+            AND a.company_name like '%' #{param1} '%'
+         </if>
+         <if test = "param2 !='-9'" >
+            AND a.fdid =  #{param2} 
+         </if>
+ 		ORDER BY a.comp_level asc  	 
+ 	 </select>
+ 	 <select id="getAllOrgsUnderMyOrg"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+		SELECT a.company_cd param1,a.company_name param2,a.company_level param3,(SELECT company_name FROM company WHERE company_cd = a.perant_company_cd ) param4,a.state param5,a.perant_company_cd param6
+ 		FROM company a WHERE   a.state='2'    AND a.perant_company_cd =  #{param2}  
+ 		ORDER BY a.company_cd asc  	 
+ 	 </select>
+ 	 <!-- getThisRoleAuthTreeJsonService 获取功能LIST-->
+ 	 <select id="getThisRoleAuthTreeJsonService"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+		SELECT fs.fdid param1,fs.parent_function_id param2,fs.function_name param3,
+    (SELECT COUNT(1) FROM role2function rf WHERE rf.function_id = fs.fdid AND rf.role_id =#{param1} AND rf.btn_cd ='view') param4,0 param5 
+    FROM functions fs
+    WHERE fs.state = '2' 
+    UNION 
+    SELECT fb.fdid param1,fb.function_cd param2,fb.btn_name  param3,
+    (CASE WHEN (SELECT COUNT(1) FROM role2function rf2 WHERE rf2.function_id = fb.function_cd  AND fb.btn_cd = rf2.btn_cd 
+    AND rf2.role_id =#{param1}   AND rf2.btn_cd !='view' ) = 0 THEN 0 ELSE 1 END ) param4,0 param5
+    FROM function_btn fb ,functions ff
+    WHERE  fb.function_cd = ff.fdid AND ff.state ='2' AND fb.btn_cd !='view'
+ 	 </select>
+ 	 <!-- deleteAuthorityToRole 删除角色上的赋权 -->
+ 	 <delete id="deleteAuthorityToRole"  parameterType = "com.bw.common.model.CommonMedol" >
+ 	   delete  FROM role2function WHERE role_cd = #{param1}
+ 	 </delete>
+ 	 <!--  检查角色与功能关联 -->
+ 	 <select id="checkAuthorityExiste"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+ 	    select count(1) param1 from functions where   function_cd = #{param2}
+ 	 </select>
+ 	 <!--  查询功能页面上其他权限 -->
+ 	 <select id="qryAuthBtnExiste"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+ 	    SELECT fdid param1,btn_cd param2,btn_name param3,function_cd param4 FROM function_btn WHERE fdid =  #{param2}
+ 	 </select>
+ 	 <!--  建立角色与功能关联 -->
+ 	 <insert id="giveAuthorityToRoleService"  parameterType = "com.bw.common.model.CommonMedol" >
+ 	   insert into role2function values (#{param1},#{param2},'2',#{param3})
+ 	 </insert>
+ 	 <select id="qryAuthorityRoleRelation"  parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+      select function_cd param1 from role2function where role_cd = #{param1}
+ 	 </select>
+ 	 <!-- getAuthorityBtnsByThisUserService 获取到这个用户这个功能所展示的按钮 -->
+ 	 <select id="getAuthorityBtnsByThisUserService"  parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+		SELECT rf.btn_cd param1,fb.btn_name param2,CONCAT(fb.btn_cd,fb.function_cd) param3,fb.addr param4,fb.btn_type param5
+    FROM staff uu,staff2roles ur,roles r ,role2function rf ,function_btn fb 
+    WHERE uu.fdid = ur.staff_id     AND ur.role_id = rf.role_id
+    AND r.fdid = rf.role_id     AND fb.function_cd = rf.function_id
+    AND rf.btn_cd = fb.btn_cd    AND fb.btn_cd != 'view'
+    AND r.state = '2'       AND rf.state='2'
+    AND uu.fdid =#{param2}   AND fb.function_cd =#{param1} 
+    UNION
+    SELECT rf.btn_cd param1,fb.btn_name param2,CONCAT(fb.btn_cd,fb.function_cd) param3,fb.addr param4,fb.btn_type param5
+    FROM staff uu,staff2roles ur,role2function rf ,function_btn fb
+    WHERE uu.fdid = ur.staff_id   
+      AND fb.function_cd = rf.function_id
+    AND rf.btn_cd = fb.btn_cd  
+    AND rf.role_id = '*'
+      AND fb.btn_cd != 'view'
+    AND rf.state='2'
+    AND uu.fdid =#{param2}   AND fb.function_cd =#{param1}  
+ 	 </select>
+ 	 <!-- createNewSysUserService 新建系统用户 -->
+ 	 <insert id="createNewSysUserService"  parameterType = "com.bw.common.model.CommonMedol">
+ 	   INSERT INTO staff (fdid,staff_number,staff_name,phone,address,isdeleted,state,
+create_time,version_time,creator,staff_type_cd ) VALUES (#{param12},#{param1},#{param2},#{param5},#{param7},'0','2',to_date(#{param21},'yyyy-mm-dd hh24:mi:ss'),to_date(#{param21},'yyyy-mm-dd hh24:mi:ss'),#{staff_number},#{param10})
+ 	 </insert>
+ 	 <!-- createUserToRoleRelation 创建用户与角色关系 -->
+ 	 <insert id="createUserToRoleRelation"  parameterType = "com.bw.common.model.CommonMedol">
+ 	  insert into staff2roles values (#{param13},#{param12},#{param8},'0',to_date(#{param21},'yyyy-mm-dd hh24:mi:ss'),to_date(#{param21},'yyyy-mm-dd hh24:mi:ss'),#{staff_number},'')
+ 	 </insert>
+ 	 <!-- createUserToOrgRelationService  -->
+ 	 <insert id="createUserToOrgRelationService"  parameterType = "com.bw.common.model.CommonMedol">
+ 	 insert into staff2company values (#{param12},#{param4})
+ 	 </insert>
+ 	 <!-- getUserInfosByUserIdService 根据id查询出用户资料 -->
+ 	 <select id="getUserInfosByUserIdService" parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+		SELECT u.user_cd param1,u.user_name param2,u.phone param3,u.fixed_phone param4,
+		u.address param5,(SELECT p.peculiarity_name  FROM peculiarity p WHERE p.peculiarity_cd = u.peculiarity )  param6,
+		u.entry_time param7,u.create_date param8 ,(SELECT user_name FROM sysuser WHERE user_cd = u.in_operator) param9,uc.companny_cd param10,c.company_name param11,u.peculiarity param12,
+		(SELECT role_cd FROM user2role ur WHERE ur.user_cd = u.user_cd ) param13 ,u.position_cd param14
+		 FROM USER u,user2company uc,company c   WHERE u.user_cd = uc.user_cd AND c.company_cd = uc.companny_cd AND uc.state = '2' AND u.user_cd = #{param1} 	 
+ 	 </select>
+ 	 <update id="updateSysUserInfoService" parameterType = "com.bw.common.model.CommonMedol" >
+ 	 update sysuser set user_name = #{param2},phone=#{param5},fixed_phone=#{param6},address=#{param7},
+ 	 peculiarity =#{param8},entry_time=#{param10},position_cd=#{param12}  where user_cd = #{param1}
+ 	 </update>
+ 	 <!-- updateUserToRoleRelation  -->
+ 	 <update id="updateUserToRoleRelation" parameterType = "com.bw.common.model.CommonMedol" >
+ 	 update user2role set role_cd = #{param9} where user_cd= #{param1}
+ 	 </update>
+ 	 <update id="updateUserToOrgRelationService" parameterType = "com.bw.common.model.CommonMedol" >
+ 	    update user2company set companny_cd =#{param4}  where user_cd = #{param1}
+ 	 </update>
+ 	 <!-- getMaxOrgCd 获取最大的组织ID   -->
+ 	 <select id="getMaxOrgCd"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+ 	  	   select max(company_cd)   param1 from company 
+ 	 </select>
+ 	 <select id="getThisOrgLevel"  parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+		select company_level  param1 from company where company_cd = #{param2} 	 
+ 	 </select>
+ 	 <insert id="createNewSysOrgService"    parameterType = "com.bw.common.model.CommonMedol" >
+ 	 insert into company values (#{param4},#{param5},#{param1},#{param6},#{param2},'2',DATE_FORMAT(#{param21},'%Y-%c-%d %h:%i:%s'),#{staff_number},#{param3})
+ 	 </insert>
+ 	 <!-- getOrgInfosByIdService 查询机构资料（单笔） -->
+ 	 <select id="getOrgInfosByIdService"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+ 	 SELECT cc.company_cd param1,cc.company_name param2,cc.company_level param3,cc.perant_company_cd  param4,
+	 (SELECT company_name FROM company WHERE company_cd = cc.perant_company_cd) param5,cc.create_date param6,cc.operator param7,cc.address param8 FROM company cc
+	 WHERE  cc.company_cd =  #{param1}
+ 	 </select>
+ 	 <!-- updateSysOrgInfoService 更新机构资料 -->
+ 	 <update id="updateSysOrgInfoService"  parameterType = "com.bw.common.model.CommonMedol">
+ 	    update company set company_name =#{param2},address=#{param4},perant_company_cd =#{param3},company_level = #{param5} where company_cd= #{param1}
+ 	 </update>
+ 	 <!-- qrySearchOrgUserTopList  -->
+ 	  <select id="qrySearchOrgUserTopList"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+ 		SELECT uu.user_cd param1,uu.user_name param2,cp.company_name param4,cp.company_cd param3
+		FROM sysuser uu ,user2company  uc,company cp 
+		WHERE cp.company_cd = uc.companny_cd 
+		AND uc.user_cd = uu.user_cd 
+		AND uc.state ='2' 
+		AND cp.state  = '2' 
+		AND uc.companny_cd =#{param1}
+ 		</select>
+ 		<!-- qrySearchOrgUserTopListByKeyWordsService 根据关键字查询用户 -->
+ 		<select id="qrySearchOrgUserTopListByKeyWordsService"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+			 SELECT uu.user_cd param1,uu.user_name param2,cp.company_name param4,cp.company_cd param3   FROM sysuser uu ,user2company  uc,company cp    WHERE cp.company_cd = uc.companny_cd   
+ 			AND uc.user_cd = uu.user_cd    AND uc.state ='2'    AND cp.state  = '2'  
+  			AND    uu.user_name LIKE  '%' #{param1} '%'  
+		UNION 
+		SELECT uu.user_cd param1,uu.user_name param2,cp.company_name param4,cp.company_cd param3   FROM sysuser uu ,user2company  uc,company cp    WHERE cp.company_cd = uc.companny_cd   
+ 		AND uc.user_cd = uu.user_cd    AND uc.state ='2'    AND cp.state  = '2'  
+  		AND    uu.user_cd LIKE  '%' #{param1} '%'  
+ 		</select>
+ 		<!-- qrySearchStaffInfoByOrgTopTree 查询员工信息 -->
+ 		<select id="qrySearchStaffInfoByOrgTopTree"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+		SELECT uu.user_cd param1,uu.user_name param2,'不详' param3
+			FROM sysuser uu ,user2company uc
+			WHERE uu.user_cd = uc.user_cd
+			AND uc.companny_cd = #{param1}  		
+ 		</select>
+ 		<!-- userLoginService 用户登录验证 -->
+ 		<select id="userLoginService"  parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
+ 		select count(1) param1 from staff where staff_number = #{param1} and passwd = #{param2} and state = '2'
+ 		</select>
+ 		<!-- getThisUserAllInfo  获取登录后用户信息 -->
+      <select id="getThisUserAllInfo"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+          SELECT uu.staff_number param1,phone param2, cc.fdid param3,cc.company_name param4,cc.parent_company_id param5,uu.fdid param6
+		FROM staff uu,staff2company uc,company cc
+		WHERE uu.fdid = uc.staff_id 
+		AND uc.company_id = cc.fdid 
+		AND cc.state='2'
+		AND cc.state = uu.state
+ 		AND uu.staff_number =#{param1}
+      </select>
+      <!-- getPositionListService 根据条件查询 -->
+      <select id="getPositionListService"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+		SELECT fdid param1,pid param2,post_name param3,description param4,(CASE state WHEN 2 THEN '正常' ELSE '失效' END) param5 FROM positions
+		where 1=1
+		 <if test = "param4 !='-9'" >
+            AND  post_name  LIKE  '%' #{param4} '%'  
+         </if>     
+		 <if test = "param5 !='-9'" >
+            AND  pid =  #{param5} 
+         </if>     
+      </select>
+      <select id="getPositionInfosById"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+		SELECT fdid param1,pid param2,post_name param3,description param4,(CASE state WHEN 2 THEN '正常' ELSE '失效' END) param5  FROM positions WHERE fdid=#{param1}      
+      </select>
+      <!-- updatePositionInfosService 更新岗位说明 -->
+      <update id="updatePositionInfosService"  parameterType = "com.bw.common.model.CommonMedol" >
+      update positions set description = #{param3} where pid=#{param1}
+      </update>
+      <!-- getFileListByForeginId 根据外键查询关联的所有文件 -->
+      <select id="getFileListByForeginId"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+		SELECT fileid param1,beforename param2,createdate param3,u.user_name param4,filename param5
+		FROM attachment att,sysuser u
+		WHERE att.creator = u.user_cd       and foreignid=#{param1}
+      </select>
+      <!-- userOperateTrailSql 将用户操作轨迹保存 -->
+      <insert id="userOperateTrailSql"  parameterType = "com.bw.common.model.CommonMedol">
+      insert into user_operate_trail values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param10},
+	#{param11},#{param12},#{param13},#{param14},#{param15},#{param16},#{param17},#{param18},#{param19},#{param20},
+	#{param21},#{param22},#{param23},#{param24},#{param25},#{param26},#{param27},#{param28},#{param29},#{param30},
+	#{staff_number},#{param31},#{param32},#{company_number})
+      </insert>
+      <!-- 建立外键与附件关联 -->
+      <insert id="createForeignAndAttachmentRelation" parameterType = "com.bw.common.model.CommonMedol">
+      INSERT INTO attachment VALUES (
+	#{param18},#{param1},#{param2},'-9',#{param3},#{staff_number},DATE_FORMAT(#{param20},'%Y-%c-%d %h:%i:%s'),'2')
+      </insert>
+     <!--  根据用户，时间，操作类型 -->
+     <select id="getAllUserOperateDetails"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+     SELECT * FROM ( SELECT a.* FROM (SELECT * FROM user_operate_trail_conf WHERE function_cd = 'createNewSysUserService'
+UNION ALL
+SELECT up.*
+FROM user_operate_trail up,user_operate_trail_conf uc
+WHERE uc.function_cd = up.function_cd
+AND uc.function_cd = 'createNewSysUserService' ) a
+UNION ALL 
+SELECT a2.* FROM (SELECT * FROM user_operate_trail_conf WHERE function_cd = 'updateUserInfosByUserIdService'
+UNION ALL
+SELECT up.*
+FROM user_operate_trail up,user_operate_trail_conf uc
+WHERE uc.function_cd = up.function_cd
+AND uc.function_cd = 'updateUserInfosByUserIdService' ) a2
+)  cc WHERE cc.staff_number =#{param1}
+     </select>
+      <!-- getWtItemsByOrg 根据机构查询其下的工种备案 -->
+      <select id="getWtItemsByOrg"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+     SELECT wt.type_cd param1,wt.type_name param2
+FROM wt_record wr ,work_type wt
+WHERE wt.type_cd = wr.wt_cd
+AND wr.org_cd = #{param1}      
+      </select>
+      <!-- 查询该机构下面所有教师 -->
+      <select id="getTeachersItemsByOrg"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+            SELECT uu.user_cd param1,uu.user_name param2,p.post_name param3
+FROM positions  p,sysuser uu,user2company uc
+WHERE p.pid = uu.position_cd 
+AND uc.user_cd = uu.user_cd
+AND p.post_name LIKE '%教师%'
+AND uc.companny_cd =#{param1}
+      </select>
+      <!-- 根据机构id查询班级信息 -->
+      <select id="qrySearchClassInfoByOrgTopTree"   parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+                 SELECT cl.class_name param1,wt.type_name param2,cp.company_name param3,
+(CASE cl.state WHEN 'WAIT' THEN '待审核' WHEN 'OPEN' THEN '正常' ELSE '关闭' END)  param4,cl.state param5,cl.class_cd param6
+FROM class cl ,company cp,work_type wt
+WHERE cl.org_cd = cp.company_cd
+AND wt.type_cd = cl.work_type_cd
+AND cp.company_cd = #{param1}
+      </select>
+</mapper> 

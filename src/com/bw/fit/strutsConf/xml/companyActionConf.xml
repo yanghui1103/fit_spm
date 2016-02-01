@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<!DOCTYPE struts PUBLIC   
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+        "http://struts.apache.org/dtds/struts-2.0.dtd">  
+<struts>
+	<package name="companyAdmin" extends="struts-default" > 	           
+        <action name="createCompanyInfo"  class="companyAdminAction" method="createCompanyInfo"   />  
+        <action name="createVillageInfo" class=  "companyAdminAction" method="createVillageInfo"   />   
+        <action name="getVillageByCompany"   class=  "companyAdminAction" method="getVillageByCompany"   />
+        <action name="createCardInfo"    class=  "companyAdminAction" method="createCardInfo"   />
+        <action name="qryCompanyList"   class=  "companyAdminAction"  method="qryCompanyList"   />
+        <action name="qryCardInfoList"    class=  "companyAdminAction"  method="qryCardInfoList"   />
+        <action name="createHouseInfo"     class=  "companyAdminAction"  method="createHouseInfo"   />
+        <action name="deleteCardInfoList"   class=  "companyAdminAction"  method="deleteCardInfoList"   />
+        <action name="changeUserPasswd"     class=  "companyAdminAction"  method="changeUserPasswd"   />
+        <action name="getCompanyListByArea"     class=  "companyAdminAction"  method="getCompanyListByArea"   />
+        <action name="qryVillageList"      class=  "companyAdminAction"  method="qryVillageList"   />
+        <action name="qryHouseInfoList"   class=  "companyAdminAction"  method="qryHouseInfoList"   />
+	</package>  
+</struts>  

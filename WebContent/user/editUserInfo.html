@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript">
+$(document).ready(function(){
+	// 添加该功能上显示的按钮权限
+	var arr = new Array(20);
+	 for(var i in arr.length){
+		 arr[i] = "-9";		 
+	 }arr[0] = "105";
+	 var eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj); 
+	 renderBtnsToDiv($("#editUserSubBar"),'getAuthorityBtnsByThisUser.action',eJson);
+	 // 初始化页面上下拉框 
+	arr[0] = "ROLE";
+	 eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj);  
+	 takeTypeDataListV2($("#editUser_role_cd"),'getSysItems.action','1',eJson);	 
+	 arr[0] = "POSITION";
+	 eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj);  
+	 takeTypeDataListV2($("#editUser_position_cd"),'getSysItems.action','1',eJson);	 
+	 arr[0] = "PECULIARITY";
+	 eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj);  
+	 takeTypeDataListV2($("#editUser_peculiarity"),'getSysItems.action','1',eJson);	
+	 //根据上页的UserId查询出用户资料，并遍历页面
+	if(($('input[id="userfdid"]:checked').length) == 1){
+			var user_id = $('input[id="userfdid"]:checked').val();
+			getUserInfosById(user_id);
+	}else{
+			alertMsg.error("请选择一条记录！");
+	}
+	 
+});
+$("#save105").click(function(){
+	 if($("#editUser_user_cd").val()=="" || $("#editUser_user_name").val()=="" ||$("#editUser_org_id").val()==""
+		||$("#editUser_peculiarity").val()=="-1"||$("#editUser_role_cd").val() =="-1"||$("#editUser_position_cd").val() =="-1"||$("#editUser_entry_time").val() ==""){
+		alertMsg.error("请填写非空项！");
+		return ;
+	}
+	var arr = new Array(20);
+	 for(var i in arr.length){
+		 arr[i] = "-9";		 
+	 }arr[0] = $("#editUser_user_cd").val();arr[1] = $("#editUser_user_name").val();
+	 arr[2] = $("#editUser_org_name").val();arr[3] = $("#editUser_org_id").val();
+	 arr[4] = $("#editUser_phone").val();arr[5] = $("#editUser_fixedphone").val();
+	 arr[6] = $("#editUser_address").val();arr[7] = $("#editUser_peculiarity").val();
+	 arr[8] = $("#editUser_role_cd").val();arr[9] = $("#editUser_entry_time").val();
+	 arr[10] = $("#editUser_create_date").val();arr[11] = $("#editUser_position_cd").val();
+	 var eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj);    
+	// 保存变更后的用户资料 
+	var resultJson = AjaxExchangeBackTextData('updateUserInfosByUserId.action', eJson);
+	 alertToUserMsg(resultJson); 
+});
+function getUserInfosById(user_id){ 
+		var arr = new Array(20);
+	 	for(var i in arr.length){
+			 arr[i] = "-9";		 
+	 	}arr[0] = user_id; 
+	 	var eobj = createParamJson(arr); 	 
+	 	var eJson = JSON.stringify(eobj);  
+		var ttDom = AjaxExchangeBackXMLDataByJson('getUserInfosByUserId.action',eJson);   
+		 var s = $.parseXML(ttDom.xml );
+		   	$(s).find('user').each(function() {  
+			 	 var xml = $(this);
+		   		$("#editUser_user_cd").val(xml.children("user_cd").text());$("#editUser_user_name").val(xml.children("user_name").text());
+		   		$("#editUser_org_name").val(xml.children("company_name").text());$("#editUser_org_id").val(xml.children("company_cd").text());
+		   		$("#editUser_phone").val(xml.children("phone").text());$("#editUser_fixedphone").val(xml.children("fixed_phone	").text());
+		   		$("#editUser_address").val(xml.children("address").text());$("#editUser_peculiarity").val(xml.children("peculiarity_cd").text());
+		   		$("#editUser_role_cd").val(xml.children("role_cd").text());$("#editUser_entry_time").val(xml.children("entry_time").text());
+		   		$("#editUser_create_date").val(xml.children("create_date").text());
+		   		$("#editUser_position_cd").val(xml.children("position").text());
+		   	});
+}
+</script>
+</head>
+<div class="pageContent">
+	<form method="post" action=""  id=editUserForm class="pageForm required-validate">
+		<div class="pageFormContent" layoutH="56">
+			<p>
+				<label>用户编号：</label>
+				<input id="editUser_user_cd" type="text" size="30"  maxlength=10 readonly  class="required" alt="请输入用户编号"/>
+			</p>
+			<p>
+				<label>用户名称：</label>
+				<input id="editUser_user_name" class="required" type="text" size="30"  alt="请输入用户名称"/>
+			</p>
+			<p>
+				<label>部门名称：</label>
+				<input type="text"  id="editUser_org_name" class="required" readonly name="orgLookup.orgName" value="" suggestFields="orgNum,orgName"   lookupGroup="orgLookup" />
+				<a class="btnLook" href="system/getAllOrgs.html" lookupGroup="orgLookup">查找带回</a>		
+			</p>
+			<p>
+				<label>部门编号：</label>
+				<input type="text"  class="required" readonly="readonly"  id="editUser_org_id" name="orgLookup.id" />
+			</p>
+			<p>
+				<label>电话号码：</label>
+				<input id="editUser_phone" class="digits" type="text" size="30" alt="请输入11位数字"/>
+			</p>
+			<p>
+				<label>固定电话：</label>
+				<input id="editUser_fixedphone" class="digits" type="text" size="30" alt="请输入11位数字"/>
+			</p>
+			<p>
+				<label>地址：</label>
+				<input type="text" id=editUser_address size="30" />
+			</p>
+			<p>
+				<label>性格类型：</label>
+				<select id="editUser_peculiarity" class="required combox">
+				</select>
+			</p>
+			<p>
+				<label>角色：</label>
+				<select id="editUser_role_cd" class="required combox"> 
+				</select>
+			</p>
+			<p>
+				<label>岗位：</label>
+				<select id="editUser_position_cd" class="required combox"> 
+				</select>
+			</p>
+				<p>
+				<label>入职时间：</label>
+				<input id=editUser_entry_time  type="text" class="date required" readonly="true" />
+			</p>
+			<p>
+				<label>录入时间：</label>
+				<input type="text" id=editUser_create_date size="30" readonly=true />
+			</p>
+		</div>
+		<div class="formBar" id="editUserSubBar">
+		</div>
+	</form>
+</div> 

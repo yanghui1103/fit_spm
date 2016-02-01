@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="formDataTest" name="My process" isExecutable="true">
+    <startEvent id="startevent2" name="Start"></startEvent>
+    <userTask id="fill" name="填写预算" activiti:assignee="kermit">
+      <extensionElements>
+        <activiti:formProperty id="sheetId" name="表单Id" type="string" default="1" writable="false" required="true"></activiti:formProperty>
+        <activiti:formProperty id="fillType" name="打开类型" type="string" default="普通填报" writable="false" required="true"></activiti:formProperty>
+        <activiti:formProperty id="isSum" name="是否汇总" default="不汇总" writable="false" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent2" targetRef="fill"></sequenceFlow>
+    <userTask id="check" name="审批预算" activiti:assignee="fozzie">
+      <extensionElements>
+        <activiti:formProperty id="sheetId" name="表单Id" type="string" default="2" writable="false" required="true"></activiti:formProperty>
+        <activiti:formProperty id="fillType" name="打开类型" type="string" default="普通打开" writable="false" required="true"></activiti:formProperty>
+        <activiti:formProperty id="isSum" name="是否汇总" default="不汇总" writable="false" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="fill" targetRef="check"></sequenceFlow>
+    <userTask id="sum" name="汇总审批预算" activiti:assignee="admin">
+      <extensionElements>
+        <activiti:formProperty id="sheetId" name="表单Id" type="string" default="3" writable="false" required="true"></activiti:formProperty>
+        <activiti:formProperty id="fillType" name="打开类型" type="string" default="汇总到一张表打开" writable="false" required="true"></activiti:formProperty>
+        <activiti:formProperty id="isSum" name="是否汇总" default="汇总" writable="false" required="true"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow3" sourceRef="check" targetRef="sum"></sequenceFlow>
+    <endEvent id="endevent3" name="End"></endEvent>
+    <sequenceFlow id="flow4" sourceRef="sum" targetRef="endevent3"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_formDataTest">
+    <bpmndi:BPMNPlane bpmnElement="formDataTest" id="BPMNPlane_formDataTest">
+      <bpmndi:BPMNShape bpmnElement="startevent2" id="BPMNShape_startevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="60.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="fill" id="BPMNShape_fill">
+        <omgdc:Bounds height="55.0" width="105.0" x="140.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="check" id="BPMNShape_check">
+        <omgdc:Bounds height="55.0" width="105.0" x="290.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sum" id="BPMNShape_sum">
+        <omgdc:Bounds height="55.0" width="105.0" x="440.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent3" id="BPMNShape_endevent3">
+        <omgdc:Bounds height="35.0" width="35.0" x="590.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="95.0" y="197.0"></omgdi:waypoint>
+        <omgdi:waypoint x="140.0" y="197.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="245.0" y="197.0"></omgdi:waypoint>
+        <omgdi:waypoint x="290.0" y="197.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="395.0" y="197.0"></omgdi:waypoint>
+        <omgdi:waypoint x="440.0" y="197.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="545.0" y="197.0"></omgdi:waypoint>
+        <omgdi:waypoint x="590.0" y="187.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

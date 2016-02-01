@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="renderer" content="ie-comp">
+<script type="text/javascript"  src="consumeAdmin/auditConsumeRecords.js"></script>
+</head>
+<body>
+<div class="pageHeader">
+	<div class="searchBar">
+		<ul class="searchContent">
+			<li>
+				<label>持卡人姓名：</label>				
+			<input  type=text  id=audit_person  class="required"  size=30 />
+			</li>
+			<li>
+				<label>消费日期：</label>				
+			<input  type=text  id=audit_date  class="date" size=30 />
+			</li>
+			<li>
+				<label>商户名称：</label>				
+			<input  type=text  id=audit_merchant  size=30 />
+			</li>
+		</ul>		
+		<div class="subBar"  id="consumeListBar">
+		</div>
+	</div>
+</div>
+
+<div class="pageContent">
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><span id="consumeFirstPage">首页</span></li>
+			<li><span id="consumeBeforePage">上一页</span></li>
+			<li><span  id="consumeNextPage">下一页</span></li>
+			<li><span id="consumeEndPage">尾页</span></li>			
+		</ul>
+	</div>
+
+	<div id="w_list_print">
+	<table class="list" width="99%" targetType="navTab" asc="asc" desc="desc" layoutH="116">
+		<thead>
+			<tr>
+				<th width="10%" >持卡人姓名</th>
+				<th width="10%" >卡号</th>
+				<th width="10%" >持卡人电话</th>
+				<th width="10%" >消费积分</th>
+				<th width="10%" >消费商户</th>
+				<th width="10%" >商户属地</th>
+				<th width="10%">记录状态</th>
+				<th width="15%">录入时间</th>
+				<th width="10%">录入员</th>
+			</tr>
+		</thead>
+		<tbody id="consumeListTbody">			
+		</tbody>
+	</table>
+	</div>	
+</div>
+</body>
+</html>
