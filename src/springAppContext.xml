@@ -81,4 +81,11 @@
  	<tx:annotation-driven transaction-manager="transactionManager" /> 
  	
  	<!-- 切面测试 -->  
+<!--  	<bean name="systemValidationAop"  class ="com.bw.common.uitily.SystemValidationAop"  /> -->
+<!-- 	<aop:config> -->
+<!-- 		<aop:aspect ref="systemValidationAop"> -->
+<!-- 			<aop:before method="validationCheck2"  arg-names="cm"  pointcut="execution(* com.bw.fit.spm.card.service.impl.*.*(..)) and args(cm)"/> -->
+<!-- 			<aop:before method="validationCheck"  arg-names="cm"  pointcut="execution(* com.bw.fit.spm.card.service.impl.*.*(..)) and args(cm)"/> -->
+<!-- 		</aop:aspect> -->
+<!-- 	</aop:config> -->
 </beans>
