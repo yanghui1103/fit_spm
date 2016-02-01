@@ -25,9 +25,9 @@
     <import resource="classpath:com/bw/springConf/xml/allSysItemsActionConf.xml" />
 	<!-- 数据库配置文件位置 -->
 	
-<!-- 	<context:property-placeholder location="file:D:/eclipse/workspace/jdbc_spm.properties" /> -->
+	<context:property-placeholder location="file:D:/eclipse/workspace/jdbc_spm.properties" />
 	
-	<context:property-placeholder location="file:/var/db_pool/jdbc_spm.properties" />
+<!-- 	<context:property-placeholder location="file:/var/db_pool/jdbc_spm.properties" /> -->
 	
 	<!-- 配置dbcp数据源 org.apache.commons.dbcp.BasicDataSource -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"   destroy-method="close">
@@ -81,11 +81,4 @@
  	<tx:annotation-driven transaction-manager="transactionManager" /> 
  	
  	<!-- 切面测试 -->  
-<!--  	<bean name="systemValidationAop"  class ="com.bw.common.uitily.SystemValidationAop"  /> -->
-<!-- 	<aop:config> -->
-<!-- 		<aop:aspect ref="systemValidationAop"> -->
-<!-- 			<aop:before method="validationCheck2"  arg-names="cm"  pointcut="execution(* com.bw.fit.spm.card.service.impl.*.*(..)) and args(cm)"/> -->
-<!-- 			<aop:before method="validationCheck"  arg-names="cm"  pointcut="execution(* com.bw.fit.spm.card.service.impl.*.*(..)) and args(cm)"/> -->
-<!-- 		</aop:aspect> -->
-<!-- 	</aop:config> -->
 </beans>
