@@ -45,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bw.common.model.CommonMedol;
 import com.bw.common.uitily.MybatisDaoUtil;
 import com.bw.common.uitily.PubFun; 
+import com.bw.fit.spm.model.Common;
 @Service
 @Transactional 
 @Scope("singleton")
@@ -126,20 +127,13 @@ public class AllSysAuthServiceImpl implements AllSysAuthService{
 
  		Document doc = DocumentHelper.createDocument(); 	
 		try {
-			c.setSql("sysAuthenticationDAO.getMaxRoleCd");
-			c.setParam4(((CommonMedol) mybatisDaoUtil.getOneData(c.getSql(), c)).getParam1());  
+			c.setParam4(PubFun.getUUID());
 			c.setSql("sysAuthenticationDAO.createNewRoleService");
 			doc = mybatisDaoUtil.sysUpdateData(c.getSql(), c);  			 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		c.setParam28(PubFun.getSysDateM());
-		c.setParam31("createNewRoleService");
-		c.setParam32("新建角色");
-		c.setParam29(doc.selectSingleNode("/root/res").getText());
-		c.setParam30(doc.selectSingleNode("/root/msg").getText());
-		mybatisDaoUtil.userOperateTrail(c);
 		return doc;
 	}
 
@@ -271,6 +265,7 @@ log.info(doc.asXML());
 				try {
 					c.setParam12(PubFun.getUUID());
 					c.setParam13(PubFun.getUUID());
+					
 					c.setSql("sysAuthenticationDAO.createNewSysUserService");
 					doc = mybatisDaoUtil.sysUpdateData(c.getSql(), c);  	
 //					if("2".equals(doc.selectSingleNode("/root/res").getText())){

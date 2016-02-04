@@ -28,8 +28,8 @@ function qryOrgInfoListByInfo(obj,pageNo){
 		 	 var xml = $(this); 
 		 	table.append("<tr><td width='160px'>"+xml.children("company_name").text()+
 		 	 "</td><td width='160px'>"+xml.children("company_cd").text()+
-		 	 "</td><td width='160px'>"+xml.children("level").text()+
-		 	 "</td><td width='160px'>"+xml.children("up_company_name").text()+
+		 	 "</td><td width='160px'>"+replaceF9ValToNull(xml.children("level").text())+
+		 	 "</td><td width='160px'>"+replaceF9ValToNull(xml.children("up_company_name").text())+
 		 	 "</td><td width='120px''><a class='btnSelect' href=\"javascript:$.bringBack({id:'"+xml.children("company_cd").text()+"', orgName:'"+xml.children("company_name").text()+"'})\" title=\"查找带回\">选择</a>"+
 		 	 "</td></tr>");  
 	   }); 

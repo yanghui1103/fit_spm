@@ -4,6 +4,10 @@
     <select id="getNextVal"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
       select seq_crm.nextval param1 from dual 
     </select>
+    <!-- 根据工号查询id -->
+    <select id="getStaffIdByStaffNumber"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
+      select fdid param1 from staff where isdeleted='1' and staff_number=#{param1}
+    </select>
     <!--getThisUserAuthLists 获取权限列表  -->
     <select id="getThisUserAuthLists"  parameterType = "com.bw.common.model.CommonMedol" resultType="com.bw.common.model.CommonMedol">
       SELECT fs.fdid param5,fs.function_name param1 ,fs.parent_function_id param2,fs.func_level param3 ,fs.action param4,fs.target param6,fs.rel param7
@@ -79,7 +83,7 @@
 		 </select>
      <!-- createNewRoleService 创建角色 -->
      <insert id="createNewRoleService"   parameterType = "com.bw.common.model.CommonMedol">
-        insert into roles values (#{param3},#{param4},#{param1},'2',#{param2})
+        insert into roles values (#{param4},#{param1},#{param2},'2',to_date(#{param10},'yyyy-mm-dd hh24:mi:ss'),#{param3},'0',to_date(#{param10},'yyyy-mm-dd hh24:mi:ss'))
      </insert>
      <insert id="createNewPositionService"   parameterType = "com.bw.common.model.CommonMedol">
         insert into positions values (#{param3},#{param4},#{param1},'2',#{param2})

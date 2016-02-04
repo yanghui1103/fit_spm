@@ -298,10 +298,11 @@ public class AllSysItemsAction extends BaseAction {
 		c.setParam3(String.valueOf(System.currentTimeMillis()));
 		c.setStaff_number(((LoginUser) session.getAttribute("LoginUser"))
 				.getUser_cd());
+		c.setParam10(PubFun.getSysDateM());
 		Document document = DocumentHelper.createDocument();
 		Element rootR = document.addElement("root");
 		Document doc = ((AllSysAuthServiceImpl) getBean("allSysAuthServiceImpl"))
-				.createNewRoleService(c);
+				.createNewRoleService(c); 
 		wr.write((PubFun.xml2json(doc)));
 		wr.close();
 		return null;
