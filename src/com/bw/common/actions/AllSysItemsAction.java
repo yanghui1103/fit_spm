@@ -671,13 +671,13 @@ public class AllSysItemsAction extends BaseAction {
 		c.setParam1((String) ((JSONObject) array.get(0)).get("param1"));
 		c.setParam2((String) ((JSONObject) array.get(0)).get("param2"));
 		c.setParam3((String) ((JSONObject) array.get(0)).get("param3"));
+		c.setParam5((String) ((JSONObject) array.get(0)).get("param4"));
 		c.setParam4(String.valueOf(System.currentTimeMillis()));
 		c.setStaff_number(((LoginUser) session.getAttribute("LoginUser"))
 				.getUser_cd());
 		c.setParam21(PubFun.getSysDate());
 		c.setAction_name("createNewSysOrg");
 		Document document = DocumentHelper.createDocument();
-		Element rootR = document.addElement("root");
 		Document doc = ((AllSysAuthServiceImpl) getBean("allSysAuthServiceImpl"))
 				.createNewSysOrgService(c);
 		wr.write((PubFun.xml2json(doc)));

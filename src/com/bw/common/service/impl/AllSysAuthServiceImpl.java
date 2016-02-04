@@ -358,23 +358,15 @@ log.info(doc.asXML());
 
  		Document doc = DocumentHelper.createDocument(); 	
 		try {
-			c.setSql("sysAuthenticationDAO.getMaxOrgCd");
-			c.setParam5(String.valueOf(Integer.valueOf(((CommonMedol) mybatisDaoUtil.getOneData(c.getSql(), c)).getParam1())+1));  
-			c.setSql("sysAuthenticationDAO.getThisOrgLevel");// 等级再加一
-			c.setParam6(String.valueOf(Integer.valueOf(((CommonMedol) mybatisDaoUtil.getOneData(c.getSql(), c)).getParam1())+1));  
-			
+			c.setParam10(PubFun.getUUID());
+			c.setParam11(PubFun.getSysDateM());
 			c.setSql("sysAuthenticationDAO.createNewSysOrgService");
 			doc = mybatisDaoUtil.sysUpdateData(c.getSql(), c);  			 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		c.setParam28(PubFun.getSysDateM());
-		c.setParam31("createNewSysOrgService");
-		c.setParam32("新建组织机构");
-		c.setParam29(doc.selectSingleNode("/root/res").getText());
-		c.setParam30(doc.selectSingleNode("/root/msg").getText());
-		mybatisDaoUtil.userOperateTrail(c);
+		log.info(doc.asXML());
 		return doc;
 	}
 

@@ -203,7 +203,8 @@ create_time,version_time,creator,staff_type_cd ) VALUES (#{param12},#{param1},#{
 		select company_level  param1 from company where company_cd = #{param2} 	 
  	 </select>
  	 <insert id="createNewSysOrgService"    parameterType = "com.bw.common.model.CommonMedol" >
- 	 insert into company values (#{param4},#{param5},#{param1},#{param6},#{param2},'2',DATE_FORMAT(#{param21},'%Y-%c-%d %h:%i:%s'),#{staff_number},#{param3})
+ 	 insert into company  (fdid,company_name,address,state,isdeleted,parent_company_id,create_time,
+version_time,creator,company_type_cd) values (#{param10},#{param1},#{param3},'2','0',#{param2},to_date(#{param11},'yyyy-mm-dd hh24:mi:ss'),to_date(#{param11},'yyyy-mm-dd hh24:mi:ss'),#{staff_number},#{param5})
  	 </insert>
  	 <!-- getOrgInfosByIdService 查询机构资料（单笔） -->
  	 <select id="getOrgInfosByIdService"   parameterType = "com.bw.common.model.CommonMedol"  resultType="com.bw.common.model.CommonMedol">
