@@ -26,16 +26,16 @@ $(document).ready(function(){
 });
 
 baidu("#create101").click(function(){
-	var createUser_user_cd = $("#createUser_user_cd").val() ?"-9":$("#createUser_user_cd").val();
-	var createUser_user_name = $("#createUser_user_name").val() ?"-9":$("#createUser_user_name").val();
-	var createUser_org_name = $("#createUser_org_name").val()?"-9":$("#createUser_org_name").val();
-	var createUser_org_id = $("#createUser_org_id").val()?"-9":$("#createUser_org_id").val();
-	var createUser_phone = $("#createUser_phone").val() ?"-9":$("#createUser_phone").val();
-	var createUser_fixedphone = $("#createUser_fixedphone").val()?"-9":$("#createUser_fixedphone").val();
-	var createUser_address = $("#createUser_address").val() ?"-9":$("#createUser_address").val();
-	var createUser_role_cd = $("#createUser_role_cd").val()?"-9":$("#createUser_role_cd").val();
-	var createUser_entry_time = $("#createUser_entry_time").val()?"-9":$("#createUser_entry_time").val();
-	var createUser_type_cd = $("#createUser_type_cd").val()?"-9":$("#createUser_type_cd").val();
+	var createUser_user_cd = $("#createUser_user_cd").val()=="" ?"-9":$("#createUser_user_cd").val();
+	var createUser_user_name = $("#createUser_user_name").val()=="" ?"-9":$("#createUser_user_name").val();
+	var createUser_org_name = $("#createUser_org_name").val()==""?"-9":$("#createUser_org_name").val();
+	var createUser_org_id = $("#createUser_org_id").val()==""?"-9":$("#createUser_org_id").val();
+	var createUser_phone = $("#createUser_phone").val()=="" ?"-9":$("#createUser_phone").val();
+	var createUser_fixedphone = $("#createUser_fixedphone").val()==""?"-9":$("#createUser_fixedphone").val();
+	var createUser_address = $("#createUser_address").val()=="" ?"-9":$("#createUser_address").val();
+	var createUser_role_cd = $("#createUser_role_cd").val()==""?"-9":$("#createUser_role_cd").val();
+	var createUser_entry_time = $("#createUser_entry_time").val()==""?"-9":$("#createUser_entry_time").val();
+	var createUser_type_cd = $("#createUser_type_cd").val()==""?"-9":$("#createUser_type_cd").val();
 	 var array = new Array(createUser_user_cd, createUser_user_name,createUser_org_name,
 			 createUser_org_id, createUser_phone,createUser_fixedphone,
 			 createUser_address, createUser_role_cd,createUser_entry_time,createUser_type_cd);  
