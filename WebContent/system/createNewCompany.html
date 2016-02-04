@@ -12,26 +12,32 @@ $(document).ready(function(){
 	 var eobj = createParamJson(arr); 
 	 var eJson = JSON.stringify(eobj); 
 	 renderBtnsToDiv($("#createNewCompSubBar"),'getAuthorityBtnsByThisUser.action',eJson);
-
+	 arr[0] = "COMPTYPE";
+	 eobj = createParamJson(arr); 
+	 var eJson = JSON.stringify(eobj);  
+	 takeTypeDataListV2($("#create_uporg_type"),"getSysItems.action","1", eJson);	 
 });
-$("#create106").click(function(){
+$("#save106").click(function(){
 	 // 新建机构
 	if($("#create_company_name").val()=="" || $("#create_uporg_id").val()=="" ){
 		alertMsg.error("请填写非空项！");
 		return ;
 	}
-	// over validation
-	 var arr = new Array(20);
-	 for(var i in arr.length){
-		 arr[i] = "-9";		 
-	 }arr[0] = $("#create_company_name").val();
-	 arr[1] = $("#create_uporg_id").val();
-	 arr[2] = $("#createComp_address").val();
-	 var eobj = createParamJson(arr); 
-	 var eJson = JSON.stringify(eobj); 
-	var ttDom = AjaxExchangeBackTextData('createNewSysOrg.action',eJson);   
-	alertToUserMsg(ttDom);
+	var create_company_name  = $("#create_company_name").val()==""?"-9":$("#create_company_name").val();
+ 	 var create_uporg_id  = $("#create_uporg_id").val()==""?"-9":$("#create_uporg_id").val();
+ 	 var createComp_address = $("#createComp_address").val()==""?"-9":$("#createComp_address").val();
+ 	var create_uporg_type = $("#create_uporg_type").val()==""?"-9":$("#create_uporg_type").val();
+	 var array = new Array(create_company_name,create_uporg_id,createComp_address,create_uporg_type);  
+		createJsonAndAjax(
+				'createNewSysOrg.action',
+				array,
+				dealCreateOrgMsg,'JSON'
+	    );
 });
+
+function dealCreateOrgMsg(data){
+	alertToUserMsg(data);		
+}
 </script>
 </head>
 <div class="pageContent">
@@ -55,6 +61,11 @@ $("#create106").click(function(){
 			<p>
 				<label>上级组织编码：</label>
 				<input type="text"  class="required" readonly="readonly"  id="create_uporg_id" name="orgLookup.id" />
+			</p>
+			<p>
+				<label>组织类型：</label>
+				<select id="create_uporg_type" class="required combox"> 
+				</select>
 			</p>
 			<p>
 				<label>地址：</label>
