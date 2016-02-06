@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="compFeeUseAdminDAO"> 
+      <!-- 新建商户主体资料test09 -->
+      <insert id="createCompanyFeeUse"    parameterType = "com.bw.fit.spm.model.Common" >
+      	insert into fee_use_type  ( fdid,name,formula,company_id,state,isDeleted,create_time,creator,version_time)
+		values (#{fdid},#{fee_usetype_name},#{formula},#{fee_usetype_company},'2',
+		'0',to_date(#{create_time},'yyyy-mm-dd hh24:mi:ss'),#{creator},to_date(#{version_time},'yyyy-mm-dd hh24:mi:ss') )
+      </insert>
+</mapper> 

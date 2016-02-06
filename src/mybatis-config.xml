@@ -12,5 +12,6 @@
         <mapper resource="com/bw/fit/mybatis/xmls/sysAuthentication.xml"/>
         <mapper resource="com/bw/fit/mybatis/xmls/companyAdminMybatis.xml"/>
         <mapper resource="com/bw/fit/mybatis/xmls/cardAdminMybatis.xml"/>
+        <mapper resource="com/bw/fit/mybatis/xmls/comFeeUseMybatis.xml"/>
     </mappers>
 </configuration>

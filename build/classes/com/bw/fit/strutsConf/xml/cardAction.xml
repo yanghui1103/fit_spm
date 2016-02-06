@@ -7,6 +7,7 @@
         <action name="createSingleConsumeRecord" class="cardAdminAction"  method="createSingleConsumeRecord"   /> 
         <action name="getPersonInfoByCard"   class="cardAdminAction"  method="getPersonInfoByCard"   /> 
         <action name="qryCardConsumeRecords"   class="cardAdminAction"  method="qryCardConsumeRecords"   /> 
+        <action name="qryAdminConsumeRecords"     class="cardAdminAction"  method="qryAdminConsumeRecords"   /> 
         <action name="changePersonCard"   class="cardAdminAction"  method="changePersonCard"   /> 
         <action name="qryConsumeList"  class="cardAdminAction"  method="qryConsumeList"   /> 
         <action name="qryCardConsumeRecords2"   class="cardAdminAction"  method="qryCardConsumeRecords2"   /> 

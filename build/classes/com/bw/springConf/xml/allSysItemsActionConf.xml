@@ -17,5 +17,6 @@
     <!-- 系统文件上传下载 -->
     <bean id="fileAction"   class="com.bw.common.actions.FileAction" scope="prototype" />
     <bean id="cardAdminAction"   class="com.bw.fit.spm.card.action.CardAdminAction" scope="prototype" />
+    <bean id="feeUseAction"   class="com.bw.fit.fee.action.FeeUseAction" scope="prototype" />
     <bean id="companyAdminAction"   class="com.bw.fit.spm.company.action.CompanyAdminAction" scope="prototype" />
     </beans>
