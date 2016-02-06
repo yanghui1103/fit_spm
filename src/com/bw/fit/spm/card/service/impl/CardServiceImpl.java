@@ -264,4 +264,48 @@ public class CardServiceImpl implements CardService {
 		}
 		return info ;
 	}
+	@Override
+	public JSONObject qryAdminConsumeRecords(Common c) {
+		/**
+		 * 待确认提成到帐的消费记录
+		 */
+		JSONObject info = new JSONObject();
+		try{	
+			c.setSql("cardAdminDAO.qryAdminConsumeRecords");
+			c.setFdid(PubFun.getUUID());
+			List<Common> list = businessDaoUtil.getListData(c.getSql(), c); 
+			c.setTemp_str1("0");
+			c.setTemp_str2("9999999");
+			List<Common> pageTotalNoList = businessDaoUtil.getListData(c.getSql(), c);
+			info.put("pageTotalNo", pageTotalNoList.size()/15 + (pageTotalNoList.size()/15>0?1:0));
+			if(list.size()>0){
+				info.put("res","2");
+				info.put("msg","执行成功");
+			}else{
+				info.put("res","1");
+				info.put("msg","执行失败");
+			}
+			JSONArray array = new JSONArray();
+			for(int i=0;i<list.size();i++){
+				JSONObject jsonObjArr = new JSONObject();
+				jsonObjArr.put("person_name", (list.get(i)).getPerson_name());
+				jsonObjArr.put("card_code", (list.get(i)).getCard_code());
+				jsonObjArr.put("card_phone", (list.get(i)).getCard_phone());
+				jsonObjArr.put("account_fee", (list.get(i)).getAccount_fee());
+				jsonObjArr.put("area_name", (list.get(i)).getArea_name());
+				jsonObjArr.put("state", (list.get(i)).getState());
+				jsonObjArr.put("create_time", (list.get(i)).getCreate_time());
+				jsonObjArr.put("creator", (list.get(i)).getCreator());
+				jsonObjArr.put("company_name", (list.get(i)).getCompany_name());
+				jsonObjArr.put("card_sfz", (list.get(i)).getCard_sfz());
+				jsonObjArr.put("consume_id", (list.get(i)).getTemp_str1());  // 消费流水
+				array.add( jsonObjArr);
+			}
+			info.put("list", array);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			log.info(ex.getMessage());
+		}
+		return info ;
+	}
 }

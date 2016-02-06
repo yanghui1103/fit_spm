@@ -109,4 +109,25 @@ where a1.proc_inst_id_ = a2.proc_inst_id_   and a2.name_ ='card_code' and a2.tex
   </if>
   <![CDATA[  and row_no between #{temp_str1} and  #{temp_str2}  ]]>
       </select>
+      
+      <!-- 消费记录，待确认提成到帐列表 -->
+       <select id="qryAdminConsumeRecords"    parameterType = "com.bw.fit.spm.model.Common"  resultType="com.bw.fit.spm.model.Common" > 
+           select cr.fdid ,person_name,cr.card_fdid card_id,cr.person_phone  card_phone,cr.sum account_fee,cr.card_sfz ,cr.create_time,sf.staff_name creator
+from consume_records cr,company cp,staff sf 
+where cp.fdid = cr.merchant_id and sf.fdid = cr.creator
+ <if test="person_name !='-9'">
+  and person_name like '%'||#{person_name}||'%'
+  </if>
+   <if test="create_time !='-9'">
+   <![CDATA[  and to_char(cr.create_time,'yyyy-mm-dd') >= #{create_time} ]]>
+  </if>
+   <if test="version_time !='-9'">
+   <![CDATA[  and to_char(cr.create_time,'yyyy-mm-dd') <= #{version_time} ]]>
+  </if>
+  <if test="company_name !='-9'">
+  and company_name  = #{company_name} 
+  </if>
+  and cr.isdeleted = '0'
+  <![CDATA[  and rownum between #{temp_str1} and  #{temp_str2}  ]]>
+      </select>
 </mapper> 

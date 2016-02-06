@@ -222,6 +222,30 @@ public class CardAdminAction extends BaseAction {
 		return null ;
 	}
 	/**
+	 * 消费查询，待确认提成到帐
+	 */
+	public String qryAdminConsumeRecords()   throws Exception{
+		response.setContentType("text/xml;charset=UTF-8");
+		Writer wr = response.getWriter();
+		String str = new String((request.getParameter("context")).getBytes("ISO-8859-1"), "GBK");
+		Common c = new Common();
+		JSONObject obj = (JSONObject) JSONValue.parse(str);
+		JSONArray array = (JSONArray) obj.get("content");
+		c.setPerson_name((String) (((JSONObject) array.get(0)).get("param1")));
+		c.setCreate_time((String) (((JSONObject) array.get(0)).get("param2")));
+		c.setVersion_time((String) (((JSONObject) array.get(0)).get("param3")));
+		c.setCompany_name((String) (((JSONObject) array.get(0)).get("param4")));
+		c.setTemp_str1(String.valueOf((((JSONObject) array.get(0)).get("param5"))));
+		c.setTemp_str2(String.valueOf (((JSONObject) array.get(0)).get("param6")));
+		c.setCreator(((LoginUser)session.getAttribute("LoginUser")).getUser_cd()); 
+		JSONObject jsonObject= ((CardServiceImpl) getBean("cardServiceImpl"))
+			.qryAdminConsumeRecords(c);
+		wr.write(jsonObject.toJSONString());
+		wr.close();
+		
+		return null ;
+	}
+	/**
 	 * 补换卡
 	 */
 	public String changePersonCard()  throws Exception{

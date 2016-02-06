@@ -13,4 +13,5 @@ public interface CardService {
 	public JSONObject getFdIdByCardCode(Common c);
 	public JSONObject qryConsumeList(Common c);
 	public JSONObject qryCardConsumeRecords2(Common c);
+	public JSONObject qryAdminConsumeRecords(Common c);
 }	

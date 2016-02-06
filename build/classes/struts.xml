@@ -113,4 +113,5 @@
 	<include file="com/bw/fit/strutsConf/xml/companyActionConf.xml"/>
 	<include file="com/bw/fit/strutsConf/xml/cardAction.xml"/>
 	<include file="com/bw/fit/strutsConf/xml/userAction.xml"/> 
+	<include file="com/bw/fit/strutsConf/xml/feeUseAction.xml"/> 
 </struts>  
