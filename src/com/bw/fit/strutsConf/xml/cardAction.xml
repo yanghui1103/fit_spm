@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
         "http://struts.apache.org/dtds/struts-2.0.dtd">  
 <struts>
-	<package name="orderAdmin" extends="struts-default" > 	  
+	<package name="orderAdmin"   extends="sys_interceptor">  
         <action name="createSingleConsumeRecord" class="cardAdminAction"  method="createSingleConsumeRecord"   /> 
         <action name="getPersonInfoByCard"   class="cardAdminAction"  method="getPersonInfoByCard"   /> 
         <action name="qryCardConsumeRecords"   class="cardAdminAction"  method="qryCardConsumeRecords"   /> 

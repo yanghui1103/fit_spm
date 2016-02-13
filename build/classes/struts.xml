@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>   
 <!DOCTYPE struts PUBLIC   
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
-        "http://struts.apache.org/dtds/struts-2.0.dtd">  
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<!--  -->
+	<!-- -->
 	<include file="struts-default.xml"></include>
 	<!-- 指定struts的扩展名 -->
 	<constant name="struts.action.extension" value="action"></constant>
-	<!--  -->
+	<!-- -->
 	<constant name="struts.locale" value="zh_CN"></constant>
 	<!-- 字符集 -->
 	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
@@ -15,103 +15,147 @@
 	<constant name="struts.configuration.xml.reload" value="true"></constant>
 	<!-- 指定struts的资源文件自动重载 -->
 	<constant name="struts.i18n.reload" value="action"></constant>
-	<!--  指定struts的国际化资源文件 -->
+	<!-- 指定struts的国际化资源文件 -->
 	<constant name="struts.custom.i18n.resources" value="internalConfigMessage"></constant>
-	<!--  -->
-	<constant name="struts.configuration.files" value="struts-default.xml,struts-plugin.xml,struts.xml"></constant>
-	<!--  文件上传的最大MB200 -->
+	<!-- -->
+	<constant name="struts.configuration.files"
+		value="struts-default.xml,struts-plugin.xml,struts.xml"></constant>
+	<!-- 文件上传的最大MB200 -->
 	<constant name="struts.multipart.maxSize" value="209715200"></constant>
-	
-	<package name="struts2" extends="struts-default" > 	    
-		   <action name="userLoginStyleStaff" class="ac"  method="userLoginStyleStaff" >
-	   			<result name="SUCCESS">homepage.html</result>
-	   			<result name="FAIL">index.jsp</result>
-	   	</action>
-	   	 <action name="doUpload" class="com.bw.common.uitily.UpLoadFile">
-           <interceptor-ref name="defaultStack"></interceptor-ref>
-           <interceptor-ref name="fileUpload">
-              <param name="maximumSize">9999999999</param>
-              <param name="allowedTypes">*</param>
-           </interceptor-ref> 
-         </action>
-                <action name="getSysItems" class="ac"  method="getSysItems"   />
-        <action name="excelDownload" class="ac"  method="excelDownload"   />
-        <!-- getUserAuthList 获取该用户登录后左侧菜单显示的功能列表 -->
-        <action name="getUserAuthList" class="ac"  method="getUserAuthList"   />
-        <action name="getUserAuthListV2"   class="ac"  method="getUserAuthListV2"   />
-        <action name="getUserAuthListV3"   class="ac"  method="getUserAuthListV3"   />
-        <!-- getRoleExistAndNoexitAuthList获取该角色已经存在和不存的功能树 -->
-        <action name="getRoleExistAndNoexitAuthList" class="ac"  method="getRoleExistAndNoexitAuthList"  />
-        <!-- getUserListUnderTheStation 获取本级及以下机构人员的信息列表 -->
-        <action name="getUserListUnderTheStation" class="ac"  method="getUserListUnderTheStation" />
-        <!-- createForeignAndAttachmentRelation 把外键与附件关联 -->
-        <action name="createForeignAndAttachmentRelation" class="ac"  method="createForeignAndAttachmentRelation"/>
-        <!-- createNewRole 新建角色 -->
-        <action name="createNewRole"     class="ac"   method="createNewRole" />
-        <action name="getPositionList"  class="ac"   method="getPositionList"/>
-        <!-- getFileListByForeginId 根据外部ID查询出关联的文件 -->
-        <action name="getFileListByForeginId"  class="ac"   method="getFileListByForeginId"/>
-        <action name="getPositionInfosById" class="ac"  method="getPositionInfosById" />
-        <action name="updatePositionInfosByPositionId" class="ac"    method="updatePositionInfosByPositionId"/>
-        <!-- getAllOrgs 获取组织架构(List) -->
-        <action name="getAllOrgs" class="ac"   method="getAllOrgs" />
-        <!-- getAllOrgs 获取组织架构(List)当前机构下的所有 -->
-        <action name="getAllOrgsUnderMyOrg" class="ac"   method="getAllOrgsUnderMyOrg" />
-        <!-- getOrgInfoTree 获取组织架构（tree） -->
-        <action name="getOrgInfoTree" class="ac"   method="getOrgInfoTree" />
-        <!-- getThisRoleAuthTreeJson 获取该角色的权限json -->
-        <action name="getThisRoleAuthTreeJson" class="ac"  method="getThisRoleAuthTreeJson"  />
-        <!-- giveAuthorityToRole 赋权 -->
-        <action name="giveAuthorityToRole" class="ac"   method="giveAuthorityToRole" />
-        <!-- getAuthorityBtnsByThisUser 当前用户得到这个功能（function_cd）的按钮 -->
-        <action name="getAuthorityBtnsByThisUser" class="ac"  method="getAuthorityBtnsByThisUser"/>
-        <!-- createNewSysUser 单笔创建用户 -->
-        <action name="createNewSysUser" class="ac"   method="createNewSysUser"/>
-        <action name="createNewPosition"  class="ac"   method="createNewPosition"/>
-        <!-- getUserInfosByUserId 根据user查询出用户资料 -->
-        <action name="getUserInfosByUserId" class="ac"  method="getUserInfosByUserId"/>
-        <!-- updateUserInfosByUserId 更新用户资料 -->
-        <action name="updateUserInfosByUserId" class="ac"  method="updateUserInfosByUserId" />
-        <!-- createNewSysOrg 新建机构 -->
-        <action name="createNewSysOrg" class="ac"   method="createNewSysOrg" />
-        <!--  qrySearchStaffInfoByOrgTopTree 根据组织架构查询员工信息 -->
-        <action name="qrySearchStaffInfoByOrgTopTree"  class="ac"  method="qrySearchStaffInfoByOrgTopTree" />
-        <!-- getOrgInfosById 根据编码查询出机构资料 -->
-        <action name="getOrgInfosById" class="ac"  method="getOrgInfosById"/>
-        <!-- updateOrgInfosByOrgId 更新机构资料 -->
-        <action name="updateOrgInfosByOrgId" class="ac"  method="updateOrgInfosByOrgId" />
-        <!-- getAllOrgListInfoJson 得到所有机构数据 -->
-        <action name="getAllOrgListInfoJson" class="ac"  method="getAllOrgListInfoJson" />
-        <!-- qrySearchOrgUserTopList 根据部门ID查询该机构下面所有的用户 -->
-        <action name="qrySearchOrgUserTopListAction"  class="ac"  method="qrySearchOrgUserTopListAction" />
-        <!-- qrySearchOrgUserTopListByKeyWords 根据关键字查询用户信息 -->
-        <action name="qrySearchOrgUserTopListByKeyWords" class="ac"  method="qrySearchOrgUserTopListByKeyWords" />
-        <!-- 根据本机构查询拥有的工种 -->
-        <action name="getWtItemsByOrg"   class="ac"  method="getWtItemsByOrg" />
-        <!-- 根据机构查询其下的教师 -->
-        <action name="getTeachersItemsByOrg"     class="ac"  method="getTeachersItemsByOrg" />
-        <!-- 根据机构查询班级信息 -->
-        <action name="qrySearchClassInfoByOrgTopTree"   class="ac"  method="qrySearchClassInfoByOrgTopTree" />
-        
-        
-        <action name="test"   class="com.bw.common.actions.TestAction"  method="test" />
+	<!-- 自定义拦截器 start -->
+	<package name="sys_interceptor" extends="struts-default">
+		<interceptors>
+			<!--判断是否登录 和 是否有访问权限 -->
+			<interceptor name="auth" class="com.bw.common.service.impl.AuthenticationInterceptor" />
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="auth"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myStack"></default-interceptor-ref>
+		<!--  全局结果 -->
+      <global-results>
+       <!-- 拦截没登录返回结果 -->
+            <result name="NOLOGIN" type="redirect">index.jsp</result>
+<!--             拦截没有权限返回结果 -->
+            <result name="NOPOWER" >noPower.html</result>
+      </global-results> 
 	</package>
- 	<package name="struts3" extends="json-default">
-		<action name="fileUploadAction" class="com.bw.common.actions.FileAction" >
-			<result type="json" name="success">
-        		<param name="contentType">
-        			text/html
-        		</param>
-        	</result>
-        	<result type="json" name="error">
-        		<param name="contentType">
-        			text/html
-        		</param>
-        	</result>
+	<!-- 自定义拦截器 end -->
+	<package name="struts2" extends="sys_interceptor">
+		<action name="userLoginStyleStaff" class="ac" method="userLoginStyleStaff">
+			<result name="SUCCESS">homepage.html</result>
+			<result name="FAIL">index.jsp</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
 		</action>
-	</package>  
-	<include file="com/bw/fit/strutsConf/xml/companyActionConf.xml"/>
-	<include file="com/bw/fit/strutsConf/xml/cardAction.xml"/>
-	<include file="com/bw/fit/strutsConf/xml/userAction.xml"/> 
-	<include file="com/bw/fit/strutsConf/xml/feeUseAction.xml"/> 
+		<action name="doUpload" class="com.bw.common.uitily.UpLoadFile">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">9999999999</param>
+				<param name="allowedTypes">*</param>
+			</interceptor-ref>
+		</action>
+		<action name="getSysItems" class="ac" method="getSysItems" />
+		<action name="excelDownload" class="ac" method="excelDownload" />
+		<!-- getUserAuthList 获取该用户登录后左侧菜单显示的功能列表 -->
+		<action name="getUserAuthList" class="ac" method="getUserAuthList" />
+		<action name="getUserAuthListV2" class="ac" method="getUserAuthListV2" >
+		<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+		<action name="getUserAuthListV3" class="ac" method="getUserAuthListV3" />
+		<!-- getRoleExistAndNoexitAuthList获取该角色已经存在和不存的功能树 -->
+		<action name="getRoleExistAndNoexitAuthList" class="ac"
+			method="getRoleExistAndNoexitAuthList" />
+		<!-- getUserListUnderTheStation 获取本级及以下机构人员的信息列表 -->
+		<action name="getUserListUnderTheStation" class="ac"
+			method="getUserListUnderTheStation" />
+		<!-- createForeignAndAttachmentRelation 把外键与附件关联 -->
+		<action name="createForeignAndAttachmentRelation" class="ac"
+			method="createForeignAndAttachmentRelation" />
+		<!-- createNewRole 新建角色 -->
+		<action name="createNewRole" class="ac" method="createNewRole" />
+		<action name="getPositionList" class="ac" method="getPositionList" />
+		<!-- getFileListByForeginId 根据外部ID查询出关联的文件 -->
+		<action name="getFileListByForeginId" class="ac"
+			method="getFileListByForeginId" />
+		<action name="getPositionInfosById" class="ac"
+			method="getPositionInfosById" />
+		<action name="updatePositionInfosByPositionId" class="ac"
+			method="updatePositionInfosByPositionId" />
+		<!-- getAllOrgs 获取组织架构(List) -->
+		<action name="getAllOrgs" class="ac" method="getAllOrgs" />
+		<!-- getAllOrgs 获取组织架构(List)当前机构下的所有 -->
+		<action name="getAllOrgsUnderMyOrg" class="ac"
+			method="getAllOrgsUnderMyOrg" />
+		<!-- getOrgInfoTree 获取组织架构（tree） -->
+		<action name="getOrgInfoTree" class="ac" method="getOrgInfoTree" />
+		<!-- getThisRoleAuthTreeJson 获取该角色的权限json -->
+		<action name="getThisRoleAuthTreeJson" class="ac"
+			method="getThisRoleAuthTreeJson" />
+		<!-- giveAuthorityToRole 赋权 -->
+		<action name="giveAuthorityToRole" class="ac" method="giveAuthorityToRole" />
+		<!-- getAuthorityBtnsByThisUser 当前用户得到这个功能（function_cd）的按钮 -->
+		<action name="getAuthorityBtnsByThisUser" class="ac"
+			method="getAuthorityBtnsByThisUser" >
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			</action>
+		<!-- createNewSysUser 单笔创建用户 -->
+		<action name="createNewSysUser" class="ac" method="createNewSysUser" />
+		<action name="createNewPosition" class="ac" method="createNewPosition" />
+		<!-- getUserInfosByUserId 根据user查询出用户资料 -->
+		<action name="getUserInfosByUserId" class="ac"
+			method="getUserInfosByUserId" />
+		<!-- updateUserInfosByUserId 更新用户资料 -->
+		<action name="updateUserInfosByUserId" class="ac"
+			method="updateUserInfosByUserId" />
+		<!-- createNewSysOrg 新建机构 -->
+		<action name="createNewSysOrg" class="ac" method="createNewSysOrg" />
+		<!-- qrySearchStaffInfoByOrgTopTree 根据组织架构查询员工信息 -->
+		<action name="qrySearchStaffInfoByOrgTopTree" class="ac"
+			method="qrySearchStaffInfoByOrgTopTree" />
+		<!-- getOrgInfosById 根据编码查询出机构资料 -->
+		<action name="getOrgInfosById" class="ac" method="getOrgInfosById" />
+		<!-- updateOrgInfosByOrgId 更新机构资料 -->
+		<action name="updateOrgInfosByOrgId" class="ac"
+			method="updateOrgInfosByOrgId" />
+		<!-- getAllOrgListInfoJson 得到所有机构数据 -->
+		<action name="getAllOrgListInfoJson" class="ac"
+			method="getAllOrgListInfoJson" />
+		<!-- qrySearchOrgUserTopList 根据部门ID查询该机构下面所有的用户 -->
+		<action name="qrySearchOrgUserTopListAction" class="ac"
+			method="qrySearchOrgUserTopListAction" />
+		<!-- qrySearchOrgUserTopListByKeyWords 根据关键字查询用户信息 -->
+		<action name="qrySearchOrgUserTopListByKeyWords" class="ac"
+			method="qrySearchOrgUserTopListByKeyWords" />
+		<!-- 根据本机构查询拥有的工种 -->
+		<action name="getWtItemsByOrg" class="ac" method="getWtItemsByOrg" />
+		<!-- 根据机构查询其下的教师 -->
+		<action name="getTeachersItemsByOrg" class="ac"
+			method="getTeachersItemsByOrg" />
+		<!-- 根据机构查询班级信息 -->
+		<action name="qrySearchClassInfoByOrgTopTree" class="ac"
+			method="qrySearchClassInfoByOrgTopTree" />
+
+
+		<action name="test" class="com.bw.common.actions.TestAction"
+			method="test" />
+	</package>
+	<package name="struts3" extends="json-default">
+		<action name="fileUploadAction" class="com.bw.common.actions.FileAction">
+			<result type="json" name="success">
+				<param name="contentType">
+					text/html
+				</param>
+			</result>
+			<result type="json" name="error">
+				<param name="contentType">
+					text/html
+				</param>
+			</result>
+		</action>
+	</package>
+	<include file="com/bw/fit/strutsConf/xml/companyActionConf.xml" />
+	<include file="com/bw/fit/strutsConf/xml/cardAction.xml" />
+	<include file="com/bw/fit/strutsConf/xml/userAction.xml" />
+	<include file="com/bw/fit/strutsConf/xml/feeUseAction.xml" />
 </struts>  

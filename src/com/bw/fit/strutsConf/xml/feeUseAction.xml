@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
         "http://struts.apache.org/dtds/struts-2.0.dtd">  
 <struts>
-	<package name="feeUseAdmin" extends="struts-default" > 	  
+	<package name="feeUseAdmin"    extends="sys_interceptor">   
         <action name="createCompanyFeeUse" class="feeUseAction"  method="createCompanyFeeUse"   />
 	</package>  
 </struts>  

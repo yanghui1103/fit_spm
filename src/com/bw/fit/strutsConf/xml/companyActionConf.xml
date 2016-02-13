@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
         "http://struts.apache.org/dtds/struts-2.0.dtd">  
 <struts>
-	<package name="companyAdmin" extends="struts-default" > 	           
+	<package name="companyAdmin"  extends="sys_interceptor">  
         <action name="createCompanyInfo"  class="companyAdminAction" method="createCompanyInfo"   />  
         <action name="createVillageInfo" class=  "companyAdminAction" method="createVillageInfo"   />   
         <action name="getVillageByCompany"   class=  "companyAdminAction" method="getVillageByCompany"   />
