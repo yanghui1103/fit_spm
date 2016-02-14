@@ -27,17 +27,17 @@
 		<interceptors>
 			<!--判断是否登录 和 是否有访问权限 -->
 			<interceptor name="auth" class="com.bw.common.service.impl.AuthenticationInterceptor" />
-			<interceptor-stack name="myStack">
+			<interceptor-stack name="authStack">
 				<interceptor-ref name="auth"></interceptor-ref>
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
-		<default-interceptor-ref name="myStack"></default-interceptor-ref>
+		<default-interceptor-ref name="authStack"></default-interceptor-ref>
 		<!--  全局结果 -->
       <global-results>
-       <!-- 拦截没登录返回结果 -->
+       			<!-- 拦截没登录返回结果 -->
             <result name="NOLOGIN" type="redirect">index.jsp</result>
-<!--             拦截没有权限返回结果 -->
+				<!--  拦截没有权限返回结果 -->
             <result name="NOPOWER" >noPower.html</result>
       </global-results> 
 	</package>
@@ -142,6 +142,7 @@
 	</package>
 	<package name="struts3" extends="json-default">
 		<action name="fileUploadAction" class="com.bw.common.actions.FileAction">
+		<interceptor-ref name="defaultStack"></interceptor-ref>
 			<result type="json" name="success">
 				<param name="contentType">
 					text/html
