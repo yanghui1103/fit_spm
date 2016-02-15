@@ -85,3 +85,8 @@ baidu.dom("#adminConsumeNextPage").click(function(){
 	qryAdminConsumeRecords((pageNo+1)*15);
 	pageNo = pageNo+1;
 });
+
+$(".admin_jump").click(function(){
+	pageNo = $("#admin_pageno").val();
+	qryAdminConsumeRecords((pageNo-1)*15);
+});

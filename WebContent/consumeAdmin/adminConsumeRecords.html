@@ -11,7 +11,7 @@
 			<table>
 				<tr>
 					<td><label>持卡人姓名：</label> <input type=text id=admin_person
-					 size=30 /></td>
+						size=30 /></td>
 					<td><label>开始日期：</label> <input type=text id=admin_start
 						readonly class="date" size=30 /></td>
 					<td><label>结束日期：</label> <input type=text id=admin_end
@@ -25,15 +25,11 @@
 	</div>
 
 	<div class="pageContent">
-		<div class="panelBar">
-			<ul class="toolBar">
-				<li><span id="adminConsumeFirstPage">首页</span></li>
-				<li><span id="adminConsumeBeforePage">上一页</span></li>
-				<li><span id="adminConsumeNextPage">下一页</span></li>
-				<li><span id="adminConsumeEndPage">尾页</span></li>
-			</ul>
-		</div>
-
+	<div class="panelBar">
+		<ul >
+			<li class=jumpto><span>当前第1/2，共17条记录</span><input class=textInput type=text  size=2 value=1 id="admin_pageno"  /><input type=button class="goto  admin_jump" value="跳转"/></li>
+		</ul>
+	</div>
 		<div id="w_list_print">
 			<table class="list" width="99%" targetType="navTab" asc="asc"
 				desc="desc" layoutH="116">
@@ -55,6 +51,8 @@
 				</tbody>
 			</table>
 		</div>
+
 	</div>
+
 </body>
 </html>
