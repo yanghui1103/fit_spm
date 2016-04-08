@@ -1,6 +1,6 @@
 package com.bw.common.uitily;
 
-import java.util.UUID;
+import static java.util.UUID.*;
 
 public class Test {
 	 public static void main(String[] args){

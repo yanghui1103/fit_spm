@@ -36,9 +36,9 @@ $("#save204").click(function(){
 		createJsonAndAjax(
 				'createCardInfo.action',
 				array,
-				dealResult,'JSON'
+				dealCreateResult,'JSON'
 	    );
 	});
-	function dealResult(data){
+	function dealCreateResult(data){
 		alertToUserMsg(data);		
 	}
