@@ -247,7 +247,7 @@ log.info(doc.asXML());
 						sb.append("<li><div class=buttonActive><div class=buttonContent><button id="+btnLs.get(i).getParam3()+" type=button>"+btnLs.get(i).getParam2()+"</button></div></div>");
 				}
 				
-			} // enfd for
+			} // end for
 			sb.append("</ul>");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
